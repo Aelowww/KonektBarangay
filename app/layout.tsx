@@ -4,6 +4,11 @@ import ClientLayout from "./client-layout";
 export const metadata = {
   title: "KonektBarangay",
   description: "Barangay E-Services Portal",
+  icons: {
+    icon: "/logo/logo.png",
+    shortcut: "/logo/logo.png",
+    apple: "/logo/logo.png",
+  },
 };
 
 export const viewport = {
