@@ -1,0 +1,211 @@
+.siteFooter {
+  margin-top: 56px;
+  background: linear-gradient(to bottom, #ffffff, #f9fbff);
+  color: #333;
+  border-top: 1px solid #dce9ff;
+}
+
+.footerTopWave {
+  height: 24px;
+  background: #126cea;
+  clip-path: ellipse(80% 100% at 50% 0%);
+}
+
+.footerInner {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 34px 24px 40px;
+  display: grid;
+  grid-template-columns: 1.25fr repeat(3, minmax(0, 1fr));
+  column-gap: 36px;
+  row-gap: 20px;
+  align-items: start;
+  justify-items: start;
+}
+
+.footerBrand {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: -12px;
+  justify-self: start;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.footerLogoLink {
+  display: inline-flex;
+  width: fit-content;
+  align-self: flex-start;
+  margin-top: 0;
+  margin-left: -24px;
+}
+
+.footerLogoFrame {
+  height: 46px;
+  width: 172px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  overflow: hidden;
+}
+
+.footerLogo {
+  width: 188px;
+  max-height: 80px;
+  margin-left: -30px;
+  object-fit: contain;
+  transform: translateX(-24px) scale(1.5);
+  transform-origin: left center;
+  padding-top: 1px;
+}
+
+.footerDescription {
+  margin-top: -4;
+  font-size: 17px;
+  line-height: 1.5;
+  max-width: 340px;
+  color: #333;
+}
+
+.footerLinks,
+.footerContact {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.footerLinks h3,
+.footerContact h3 {
+  margin: 0 0 6px;
+  font-size: 24px;
+  line-height: 1;
+  color: #333;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+.footerLinks a {
+  width: fit-content;
+  color: #333;
+  text-decoration: none;
+  font-size: 17px;
+  line-height: 1.4;
+  border-bottom: 1px solid transparent;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.footerLinks a:hover {
+  color: #126cea;
+  border-color: #126cea;
+}
+
+.footerContact p {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.5;
+  color: #333;
+}
+
+@media (max-width: 1200px) {
+  .footerInner {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .footerLinks h3,
+  .footerContact h3 {
+    font-size: 22px;
+  }
+
+  .footerLinks a,
+  .footerContact p {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .footerTopWave {
+    height: 16px;
+  }
+
+  .footerInner {
+    padding: 24px 16px 30px;
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .footerLinks h3,
+  .footerContact h3 {
+    font-size: 20px;
+  }
+
+  .footerLinks a,
+  .footerContact p {
+    font-size: 15px;
+  }
+
+  .footerDescription {
+    margin-top: 2px;
+    font-size: 14px;
+  }
+
+  .footerBrand {
+    margin-top: 0;
+  }
+
+  .footerLogoLink {
+    margin-top: 0;
+    margin-left: 0;
+  }
+
+  .footerLogo {
+    transform: translateX(-2px) scale(1.2);
+  }
+}
+
+@media (max-width: 480px) {
+  .siteFooter {
+    margin-top: 32px;
+  }
+
+  .footerTopWave {
+    height: 12px;
+  }
+
+  .footerInner {
+    padding: 18px 12px 24px;
+    gap: 12px;
+  }
+
+  .footerBrand {
+    gap: 6px;
+  }
+
+  .footerLogoFrame {
+    width: 150px;
+    height: 38px;
+  }
+
+  .footerLogo {
+    width: 160px;
+    transform: translateX(-30px) scale(1.5);
+  }
+
+  .footerDescription {
+    font-size: 13px;
+    line-height: 1.45;
+    max-width: 100%;
+  }
+
+  .footerLinks h3,
+  .footerContact h3 {
+    font-size: 18px;
+    margin-bottom: 4px;
+  }
+
+  .footerLinks a,
+  .footerContact p {
+    font-size: 14px;
+    line-height: 1.4;
+  }
+}

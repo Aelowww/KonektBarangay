@@ -1,0 +1,672 @@
+.heroSection {
+  padding: 32px 60px;
+  padding-top: 32px;
+  background: #ffffff;
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 40px;
+}
+
+.heroContent {
+  flex: 1;
+  position: relative; 
+}
+
+.heroCta {
+  display: flex;
+  gap: 24px;
+  margin-top: 50px;
+  flex-wrap: wrap;
+}
+
+.heroFigure {
+  width: min(54vw, 900px);
+  min-width: 420px;
+  border-radius: 0;
+  overflow: visible;
+  border: none;
+  box-shadow: none;
+  background: transparent;
+}
+
+.heroVideo {
+  width: 100%;
+  display: block;
+  height: auto;
+  object-fit: contain;
+  background: transparent;
+}
+
+.stepsSection {
+  background: #ffffff;
+  padding: 8px 20px 26px;
+}
+
+.stepsHeader {
+  max-width: 1460px;
+  margin: 0 auto 18px;
+  text-align: left;
+  padding-left: 40px;
+}
+
+.stepsHeader h2 {
+  margin: 0;
+  color: #126cea;
+  font-size: 34px;
+  line-height: 1.1;
+  font-weight: 800;
+}
+
+.stepsHeader p {
+  margin: 8px 0 0;
+  color: #333;
+  font-size: 19px;
+}
+
+.stepsGrid {
+  max-width: 1460px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.stepCard {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 0;
+}
+
+.stepImage {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  display: block;
+}
+
+.purposeShowcase {
+  background: #ffffff;
+  padding: 40px 60px 56px;
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+
+.purposeRow {
+  max-width: 1240px;
+  margin: 0 auto;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 42px;
+  align-items: center;
+  min-height: 84vh;
+  border-top: 1px solid #e2edff;
+  padding-top: 34px;
+}
+
+.purposeRowReverse {
+  grid-template-columns: 1fr 320px;
+}
+
+.purposeRowReverse .purposeCopy {
+  justify-self: end;
+}
+
+.purposeRowReverse .missionIconWrap {
+  margin-left: 0;
+  justify-self: end;
+}
+
+.purposeCopy h2 {
+  margin: 0 0 14px;
+  color: #0e2040;
+  font-size: 34px;
+  line-height: 1.05;
+  letter-spacing: 0.5px;
+  font-weight: 800;
+}
+
+.purposeCopy p {
+  margin: 0;
+  max-width: 760px;
+  color: #1a355f;
+  font-size: 19px;
+  line-height: 1.55;
+}
+
+.missionIconWrap {
+  width: 320px;
+  height: 320px;
+  margin-left: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.missionIcon {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  animation: missionIconFloat 4.2s ease-in-out infinite;
+  filter: drop-shadow(0 14px 24px rgba(18, 108, 234, 0.2));
+}
+
+.stackMeter {
+  height: 360px;
+  width: 280px;
+  margin-left: 8px;
+  border-radius: 999px 999px 24px 24px;
+  border: 3px solid #126cea;
+  overflow: hidden;
+  box-shadow: 0 16px 26px rgba(18, 108, 234, 0.16);
+  background: #f8fbff;
+}
+
+.stackMeter span {
+  display: block;
+  height: 25%;
+  border-bottom: 2px solid #126cea;
+  animation: meterPulse 4.6s ease-in-out infinite;
+}
+
+.stackMeter span:nth-child(1) {
+  background: #dce9ff;
+  animation-delay: 0s;
+}
+
+.stackMeter span:nth-child(2) {
+  background: #bfd7ff;
+  animation-delay: 0.25s;
+}
+
+.stackMeter span:nth-child(3) {
+  background: #8dbbff;
+  animation-delay: 0.5s;
+}
+
+.stackMeter span:nth-child(4) {
+  background: #4c98ff;
+  border-bottom: none;
+  animation-delay: 0.75s;
+}
+
+.layerStack {
+  width: 300px;
+  height: 270px;
+  position: relative;
+}
+
+.layerStack span {
+  position: absolute;
+  left: 50%;
+  width: 240px;
+  height: 90px;
+  border: 2px solid #126cea;
+  border-radius: 10px;
+  transform: translateX(-50%) rotate(-32deg);
+  box-shadow: 0 10px 20px rgba(18, 108, 234, 0.12);
+  animation: layerFloat 4.8s ease-in-out infinite;
+}
+
+.layerStack span:nth-child(1) {
+  top: 4px;
+  background: #ffffff;
+  animation-delay: 0s;
+}
+
+.layerStack span:nth-child(2) {
+  top: 56px;
+  background: #dce7f5;
+  animation-delay: 0.22s;
+}
+
+.layerStack span:nth-child(3) {
+  top: 108px;
+  background: #bdd1ee;
+  animation-delay: 0.44s;
+}
+
+.layerStack span:nth-child(4) {
+  top: 160px;
+  background: #9fbee7;
+  animation-delay: 0.66s;
+}
+
+@keyframes meterPulse {
+  0%,
+  100% {
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(1.08);
+  }
+}
+
+@keyframes layerFloat {
+  0%,
+  100% {
+    transform: translateX(-50%) rotate(-32deg) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) rotate(-32deg) translateY(-8px);
+  }
+}
+
+@keyframes missionIconFloat {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-10px) scale(1.02);
+  }
+}
+
+.ctaPrimary {
+  background: linear-gradient(135deg, #126cea 0%, #0f5ad1 100%);
+  color: #ffffff;
+  padding: 18px 42px;
+  border-radius: 999px;
+  font-size: 20px;
+  font-weight: 800;
+  border: 2px solid transparent;
+  text-decoration: none;
+  width: 300px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  white-space: nowrap;
+  box-shadow: 0 12px 24px rgba(18, 108, 234, 0.22);
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+
+.ctaSecondary {
+  background-color: #ffffff;
+  color: #126cea;
+  padding: 18px 42px;
+  border-radius: 999px;
+  font-size: 20px;
+  font-weight: 800;
+  width: 300px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  white-space: nowrap;
+  text-decoration: none;
+  border: 2px solid #126cea;
+  box-shadow: 0 8px 18px rgba(18, 108, 234, 0.1);
+  transition: transform 0.22s ease, box-shadow 0.22s ease, background-color 0.22s ease;
+}
+
+.ctaPrimary:hover,
+.ctaSecondary:hover {
+  transform: translateY(-2px);
+}
+
+.ctaPrimary:hover {
+  box-shadow: 0 16px 30px rgba(18, 108, 234, 0.28);
+}
+
+.ctaSecondary:hover {
+  background-color: #f5f9ff;
+  box-shadow: 0 12px 22px rgba(18, 108, 234, 0.16);
+}
+
+.heroMobileLogoImg,
+.heroDesktopLogoImg {
+  object-fit: contain;
+}
+
+.heroDesktopLogo {
+  position: relative;
+  width: 700px;
+  height: 500px;
+  flex-shrink: 0;
+
+  opacity: 0;
+  transform: translateY(24px) scale(0.9);
+  animation: heroDesktopReveal 0.8s ease-out forwards;
+  animation-delay: 0.5s;
+}
+
+.heroMobileLogo {
+  display: none;
+}
+
+@media (min-width: 769px) {
+  .heroSection {
+    align-items: flex-start;
+    gap: 52px;
+  }
+
+  .heroContent {
+    max-width: 620px;
+    padding-top: 8px;
+  }
+
+  .heroFigure {
+    width: min(50vw, 860px);
+    align-self: center;
+  }
+
+  .heroVideo {
+    transform: scale(1.08);
+    transform-origin: center center;
+  }
+
+  .heroCta {
+    margin-top: 28px;
+    gap: 16px;
+  }
+
+  .ctaPrimary,
+  .ctaSecondary {
+    width: 260px;
+  }
+}
+
+@media (max-width: 768px) {
+  .heroSection {
+    padding: 16px 24px 24px;
+    padding-top: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 20px;
+  }
+
+  .heroDesktopLogo {
+    display: none;
+  }
+
+  .heroMobileLogo {
+    display: block;
+    position: relative;
+
+    width: 300px;
+    height: 240px;
+    margin: -35px -10px -30px;
+
+    opacity: 0;
+    transform: translateY(16px) scale(0.9);
+    pointer-events: none;
+
+    animation: heroMobileReveal 0.6s ease-out forwards;
+  }
+
+  .heroCta {
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 28px;
+  }
+
+  .heroFigure {
+    width: 100%;
+    min-width: 0;
+    order: -1;
+    align-self: stretch;
+    border-radius: 0;
+  }
+
+  .purposeShowcase {
+    padding: 24px 20px 34px;
+    gap: 20px;
+  }
+
+  .stepsSection {
+    padding: 8px 20px 20px;
+  }
+
+  .stepsHeader {
+    margin-bottom: 12px;
+    padding-left: 0;
+  }
+
+  .stepsHeader h2 {
+    font-size: 24px;
+  }
+
+  .stepsHeader p {
+    font-size: 14px;
+  }
+
+  .stepsGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 18px;
+    row-gap: 16px;
+  }
+
+  .stepCard {
+    box-shadow: none;
+    padding: 6px 2px;
+  }
+
+  .stepImage {
+    transform: scale(1.02);
+    transform-origin: center center;
+  }
+
+  .purposeRow,
+  .purposeRowReverse {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    min-height: auto;
+    padding-top: 20px;
+  }
+
+  .purposeRow {
+    grid-template-columns: auto 1fr;
+    align-items: center;
+  }
+
+  .purposeRowReverse {
+    grid-template-columns: 1fr auto;
+    align-items: center;
+  }
+
+  .purposeRowReverse .layerStack {
+    order: 0;
+    justify-self: end;
+  }
+
+  .purposeCopy h2 {
+    font-size: 28px;
+  }
+
+  .purposeCopy p {
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+  .stackMeter {
+    height: 220px;
+    width: 170px;
+    margin-left: 0;
+  }
+
+  .missionIconWrap {
+    width: 180px;
+    height: 180px;
+    margin-left: 0;
+  }
+
+  .layerStack {
+    width: 220px;
+    height: 190px;
+  }
+
+  .layerStack span {
+    width: 170px;
+    height: 62px;
+  }
+
+  .layerStack span:nth-child(1) {
+    top: 0;
+  }
+
+  .layerStack span:nth-child(2) {
+    top: 34px;
+  }
+
+  .layerStack span:nth-child(3) {
+    top: 68px;
+  }
+
+  .layerStack span:nth-child(4) {
+    top: 102px;
+  }
+
+  .ctaPrimary,
+  .ctaSecondary {
+    width: 100%;
+    font-size: 16px;
+    padding: 14px 0;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .heroSection {
+    padding: 12px 14px 16px;
+    padding-top: 12px;
+    gap: 14px;
+  }
+
+  .heroMobileLogo {
+    width: 240px;
+    height: 180px;
+    margin: -24px -6px -22px;
+  }
+
+  .heroCta {
+    margin-top: 18px;
+    gap: 10px;
+  }
+
+  .heroFigure {
+    border-radius: 0;
+  }
+
+  .purposeShowcase {
+    padding: 20px 14px 26px;
+    gap: 16px;
+  }
+
+  .stepsSection {
+    padding: 6px 14px 16px;
+  }
+
+  .stepsHeader h2 {
+    font-size: 21px;
+  }
+
+  .stepsHeader p {
+    margin-top: 6px;
+    margin-bottom: 30px;
+    font-size: 13px;
+  }
+
+  .stepsGrid {
+    column-gap: 16px;
+    row-gap: 20px;
+  }
+
+  .stepCard {
+    border-radius: 14px;
+    padding: 8px 2px;
+  }
+
+  .stepImage {
+    transform: scale(1);
+    transform-origin: center center;
+  }
+
+  .purposeCopy h2 {
+    font-size: 24px;
+  }
+
+  .purposeCopy p {
+    font-size: 14px;
+    line-height: 1.45;
+  }
+
+  .stackMeter {
+    width: 140px;
+    height: 190px;
+  }
+
+  .missionIconWrap {
+    width: 145px;
+    height: 145px;
+  }
+
+  .layerStack {
+    width: 180px;
+    height: 154px;
+  }
+
+  .purposeRowReverse {
+    grid-template-columns: 1fr auto;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .purposeRow {
+    grid-template-columns: auto 1fr;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .layerStack span {
+    width: 140px;
+    height: 50px;
+  }
+
+  .layerStack span:nth-child(2) {
+    top: 28px;
+  }
+
+  .layerStack span:nth-child(3) {
+    top: 56px;
+  }
+
+  .layerStack span:nth-child(4) {
+    top: 84px;
+  }
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  .stackMeter span,
+  .layerStack span,
+  .missionIcon,
+  .heroDesktopLogo,
+  .heroMobileLogo {
+    animation: none !important;
+  }
+
+  .ctaPrimary,
+  .ctaSecondary {
+    transition: none;
+  }
+}
+
+@keyframes heroDesktopReveal {
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes heroMobileReveal {
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}

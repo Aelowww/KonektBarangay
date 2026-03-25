@@ -1,0 +1,532 @@
+.page {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 32px 20px;
+  color: #333;
+  background: #ffffff;
+}
+
+.title {
+  font-size: 35px;
+  font-weight: 900;
+  margin-bottom: 24px;
+  padding-top: 0;
+  color: #126cea;
+  font-family: poppins, sans-serif;
+}
+
+.controls {
+  display: flex;
+  gap: 12px;
+  align-items: flex-end;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.controlGroup,
+.controlGroupWide {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.controlGroupWide {
+  flex: 1;
+  min-width: 220px;
+}
+
+.label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #333;
+  font-family: poppins, sans-serif;
+}
+
+.select,
+.input {
+  height: 38px;
+  padding: 0 12px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  outline: none;
+  font-family: poppins, sans-serif;
+  font-size: 14px;
+}
+
+.input {
+  width: 100%;
+}
+
+.refreshBtn {
+  height: 38px;
+  padding: 0 14px;
+  border-radius: 8px;
+  border: 1px solid #126cea;
+  background: #ffffff;
+  color: #126cea;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: poppins, sans-serif;
+}
+
+.refreshBtn:hover {
+  background: #126cea;
+  color: #ffffff;
+}
+
+.errorBox {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #dc2626;
+  padding: 12px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  font-weight: 700;
+  font-family: poppins, sans-serif;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  border: 2px solid #126cea;
+  border-radius: 12px;
+  padding: 20px;
+  background: #ffffff;
+  transition: 0.15s ease;
+  gap: 20px; 
+}
+
+.card:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  flex: 1;
+  min-width: 0;
+}
+
+.info p {
+  margin: 0;
+  color: #333;
+  font-family: poppins, sans-serif;
+  font-size: 14px;
+}
+
+.rowTitle {
+  font-weight: 800;
+  font-size: 15px;
+  color: #111;
+}
+
+.mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Courier New", monospace;
+  font-size: 12px;
+  color: #374151;
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+  font-weight: 600;
+  color: #333;
+  font-family: poppins, sans-serif;
+  font-size: 13px;
+}
+
+.statusDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.pending {
+  background-color: #f59e0b;
+}
+.approved {
+  background-color: #126cea;
+}
+.rejected {
+  background-color: #ff3b3b;
+}
+.cancelled {
+  background-color: #6b7280;
+}
+.completed {
+  background-color: #126cea;
+}
+
+.approvedMsg {
+  margin: 0;
+  font-weight: 600;
+  color: #16a34a;
+  font-family: poppins, sans-serif;
+  font-size: 13px;
+
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2; 
+  line-clamp: 2;
+  overflow: hidden;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-end;
+
+  flex-wrap: nowrap; 
+  flex-shrink: 0; 
+}
+
+.viewBtn,
+.approveBtn,
+.rejectBtn,
+.completeBtn,
+.cancelledBtn,
+.completedBtn {
+  min-width: 150px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: poppins, sans-serif;
+  white-space: nowrap;
+}
+
+.viewBtn {
+  border: 1px solid #126cea;
+  background: #ffffff;
+  color: #126cea;
+}
+
+.viewBtn:hover {
+  background: #ffffff;
+  color: #126cea;
+}
+
+.approveBtn {
+  border: 1px solid #126cea;
+  background: #126cea;
+  color: #ffffff;
+}
+
+.approveBtn:hover {
+  background: #126cea;
+  color: #ffffff;
+}
+
+.rejectBtn {
+  border: 1px solid #ff3b3b;
+  background: #ff3b3b;
+  color: #ffffff;
+}
+
+.rejectBtn:hover {
+  background: #ff3b3b;
+  color: #ffffff;
+}
+
+.completeBtn {
+  border: 1px solid #126cea;
+  background: #126cea;
+  color: #ffffff;
+}
+
+.completeBtn:hover {
+  background: #126cea;
+  color: #ffffff;
+}
+
+.cancelledBtn {
+  border: 1px solid #6b7280;
+  background: #6b7280;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  cursor: default;
+}
+
+.cancelledBtn:hover {
+  background: #6b7280;
+  color: #ffffff;
+}
+
+.completedBtn {
+  border: 1px solid #126cea;
+  background: #126cea;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  cursor: default;
+}
+
+.completedBtn:hover {
+  background: #126cea;
+  color: #ffffff;
+}
+
+.viewBtn:disabled,
+.approveBtn:disabled,
+.rejectBtn:disabled,
+.completeBtn:disabled {
+  background: #f3f4f6;
+  border-color: #d1d5db;
+  color: #9ca3af;
+  cursor: not-allowed;
+  opacity: 0.85;
+}
+
+.loadingWrap {
+  min-height: 55vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+
+.loadingCard {
+  width: min(440px, 100%);
+  border: 2px solid rgba(18, 108, 234, 0.2);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.96);
+  padding: 2rem 1.5rem;
+  box-shadow: 0 18px 40px rgba(18, 108, 234, 0.16);
+  text-align: center;
+}
+
+.loadingOrb {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  margin: 0 auto 1rem;
+  border: 2px solid rgba(18, 108, 234, 0.22);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  animation: loadingFloat 1.8s ease-in-out infinite;
+}
+
+.loadingOrb span {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #126cea;
+  animation: dotPulse 1.2s ease-in-out infinite;
+}
+
+.loadingOrb span:nth-child(2) {
+  animation-delay: 0.16s;
+}
+
+.loadingOrb span:nth-child(3) {
+  animation-delay: 0.32s;
+}
+
+.loadingTitle {
+  margin: 0;
+  color: #126cea;
+  font-size: 1.3rem;
+  font-weight: 800;
+  font-family: poppins, sans-serif;
+}
+
+.loadingSub {
+  margin: 0.6rem 0 1.2rem;
+  color: #4b5563;
+  font-size: 0.95rem;
+  font-family: poppins, sans-serif;
+}
+
+.loadingBars {
+  display: grid;
+  gap: 8px;
+}
+
+.loadingBars span {
+  display: block;
+  height: 8px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #dbeafe 0%, #93c5fd 45%, #dbeafe 100%);
+  background-size: 220% 100%;
+  animation: shimmer 1.4s linear infinite;
+}
+
+.loadingBars span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.loadingBars span:nth-child(3) {
+  width: 72%;
+  justify-self: center;
+  animation-delay: 0.4s;
+}
+
+@keyframes loadingFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes dotPulse {
+  0%,
+  100% {
+    transform: scale(0.75);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 220% 0;
+  }
+  100% {
+    background-position: -220% 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .page {
+    padding: 20px 14px;
+  }
+
+  .title {
+    font-size: 28px;
+    text-align: center;
+    margin-bottom: 18px;
+  }
+
+  .controls {
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .controlGroup,
+  .controlGroupWide {
+    width: 100%;
+  }
+
+  .refreshBtn {
+    width: 100%;
+  }
+
+  .card {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+  }
+
+  .actions {
+    width: 100%;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .viewBtn,
+  .approveBtn,
+  .rejectBtn,
+  .completeBtn,
+  .cancelledBtn,
+  .completedBtn {
+    min-width: unset;
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .page {
+    padding: 16px 12px;
+  }
+
+  .title {
+    font-size: 24px;
+    text-align: center;
+  }
+
+  .controls {
+    gap: 10px;
+  }
+
+  .card {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+    padding: 16px;
+    border-radius: 10px;
+  }
+
+  .info p {
+    font-size: 13px;
+  }
+
+  .status {
+    font-size: 13px;
+  }
+
+  .statusDot {
+    width: 8px;
+    height: 8px;
+  }
+
+  .actions {
+    width: 100%;
+    gap: 8px;
+    flex-wrap: wrap; 
+  }
+
+  .viewBtn,
+  .approveBtn,
+  .rejectBtn,
+  .completeBtn,
+  .cancelledBtn,
+  .completedBtn {
+    width: 100%;
+    height: 36px;
+    font-size: 13px;
+    border-radius: 7px;
+  }
+  .refreshBtn {
+    width: 100%;
+  }
+
+  .loadingCard {
+    padding: 1.5rem 1.2rem;
+  }
+
+  .loadingTitle {
+    font-size: 1.1rem;
+  }
+
+  .loadingSub {
+    font-size: 0.88rem;
+  }
+}

@@ -1,0 +1,449 @@
+.page {
+  min-height: calc(100vh - 80px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  padding: 2rem;
+}
+
+.card {
+  background: #ffffff;
+  border: 3px solid #126cea;
+  width: 100%;
+  max-width: 420px;
+  padding: 2.5rem 2rem;
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+}
+
+.lockWrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.2rem;
+}
+
+.lockIcon {
+  color: #126cea; 
+  animation: lockFloat 2.8s ease-in-out infinite;
+}
+
+@keyframes lockFloat {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(-6px) scale(1.06);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+.title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #126cea;
+  margin-bottom: 0.8rem;
+}
+
+.description {
+  font-size: 0.95rem;
+  color: #333;
+  line-height: 1.5;
+  margin-bottom: 2rem;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.loginBtn {
+  background: #126cea;
+  color: #ffffff;
+  padding: 0.75rem;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.loginBtn:hover {
+  background: #126cea;
+  transform: translateY(-1px);
+}
+
+.secondaryBtn {
+  padding: 0.7rem;
+  border-radius: 10px;
+  text-decoration: none;
+  color: #126cea;
+  border: 2px solid #126cea;
+  font-weight: 500;
+  transition: background 0.2s ease;
+}
+
+.secondaryBtn:hover {
+  background: #f0f4ff;
+}
+
+.adminPage {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 32px 20px;
+}
+
+.loadingScreen {
+  min-height: calc(100vh - 80px);
+  display: grid;
+  place-items: center;
+  padding: 2rem;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(18, 108, 234, 0.14), transparent 40%),
+    radial-gradient(circle at 85% 80%, rgba(18, 108, 234, 0.1), transparent 45%),
+    #ffffff;
+}
+
+.loadingCard {
+  width: min(440px, 100%);
+  border: 2px solid rgba(18, 108, 234, 0.2);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.96);
+  padding: 2rem 1.5rem;
+  box-shadow: 0 18px 40px rgba(18, 108, 234, 0.16);
+  text-align: center;
+}
+
+.loadingOrb {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  margin: 0 auto 1rem;
+  border: 2px solid rgba(18, 108, 234, 0.22);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  animation: loadingFloat 1.8s ease-in-out infinite;
+}
+
+.loadingOrb span {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #126cea;
+  animation: dotPulse 1.2s ease-in-out infinite;
+}
+
+.loadingOrb span:nth-child(2) {
+  animation-delay: 0.16s;
+}
+
+.loadingOrb span:nth-child(3) {
+  animation-delay: 0.32s;
+}
+
+.loadingTitle {
+  margin: 0;
+  color: #126cea;
+  font-size: 1.3rem;
+  font-weight: 800;
+}
+
+.loadingSub {
+  margin: 0.6rem 0 1.2rem;
+  color: #4b5563;
+  font-size: 0.95rem;
+}
+
+.loadingBars {
+  display: grid;
+  gap: 8px;
+}
+
+.loadingBars span {
+  display: block;
+  height: 8px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #dbeafe 0%, #93c5fd 45%, #dbeafe 100%);
+  background-size: 220% 100%;
+  animation: shimmer 1.4s linear infinite;
+}
+
+.loadingBars span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.loadingBars span:nth-child(3) {
+  width: 72%;
+  justify-self: center;
+  animation-delay: 0.4s;
+}
+
+@keyframes loadingFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes dotPulse {
+  0%,
+  100% {
+    transform: scale(0.75);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 220% 0;
+  }
+  100% {
+    background-position: -220% 0;
+  }
+}
+
+.adminTitle {
+  font-size: 35px;
+  font-weight: 900;
+  color: #126cea;
+  margin: 0;
+}
+
+.headerRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.refreshBtn {
+  border: 1px solid #126cea;
+  color: #126cea;
+  background: #ffffff;
+  border-radius: 8px;
+  height: 38px;
+  min-width: 110px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.refreshBtn:hover {
+  background: #126cea;
+  color: #ffffff;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.requestCard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 2px solid #126cea;
+  border-radius: 12px;
+  padding: 20px;
+  background: #ffffff;
+  gap: 16px;
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.details p {
+  margin: 0;
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+  font-weight: 600;
+  color: #333;
+}
+
+.statusDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.pending {
+  background-color: #f59e0b;
+}
+
+.approved {
+  background-color: #16a34a;
+}
+
+.rejected {
+  background-color: #ff3b3b;
+}
+
+.cancelled {
+  background-color: #6b7280;
+}
+
+.completed {
+  background-color: #0ea5e9;
+}
+
+.requestActions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.approveBtn,
+.rejectBtn {
+  min-width: 120px;
+  height: 38px;
+  border-radius: 8px;
+  border: none;
+  color: #ffffff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.approveBtn {
+  background: #16a34a;
+}
+
+.approveBtn:hover {
+  background: #15803d;
+}
+
+.rejectBtn {
+  background: #ff3b3b;
+}
+
+.rejectBtn:hover {
+  background: #dc2626;
+}
+
+.approveBtn:disabled,
+.rejectBtn:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.finalStatus {
+  min-width: 120px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: #6b7280;
+  background: #f3f4f6;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+}
+
+.emptyState {
+  color: #333;
+}
+
+@media (max-width: 768px) {
+  .adminPage {
+    padding: 16px 12px;
+  }
+
+  .headerRow {
+    flex-direction: column;
+    align-items: stretch;
+    margin-bottom: 16px;
+  }
+
+  .adminTitle {
+    font-size: 24px;
+    text-align: center;
+  }
+
+  .loadingCard {
+    padding: 1.5rem 1.2rem;
+  }
+
+  .loadingTitle {
+    font-size: 1.1rem;
+  }
+
+  .loadingSub {
+    font-size: 0.88rem;
+  }
+
+  .refreshBtn {
+    width: 100%;
+  }
+
+  .requestCard {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 16px;
+  }
+
+  .details p {
+    font-size: 13px;
+  }
+
+  .requestActions {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .approveBtn,
+  .rejectBtn,
+  .finalStatus {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .page {
+    padding: 1rem;
+  }
+
+  .card {
+    padding: 1.6rem 1.2rem;
+    border-width: 2px;
+  }
+
+  .title {
+    font-size: 1.35rem;
+  }
+
+  .description {
+    font-size: 0.9rem;
+  }
+
+  .adminPage {
+    padding: 12px 10px;
+  }
+
+  .adminTitle {
+    font-size: 22px;
+  }
+}

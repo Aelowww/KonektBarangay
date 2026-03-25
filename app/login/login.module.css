@@ -1,0 +1,273 @@
+.container {
+  min-height: 100svh;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding-top: 24px;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  white-space: nowrap;
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #126cea;
+  margin-bottom: 0;
+  margin-top: -50px;
+  font-family: poppins, sans-serif;
+}
+
+.subtitle {
+  text-align: center;
+  font-size: 1rem;
+  font-style: italic;
+  color: #333;
+  margin-left: -5px;
+  margin-top: -40px;
+  margin-bottom: 18px;
+}
+
+.title span {
+  color: #126cea;
+}
+
+.card {
+  width: 380px;
+  background: #ffffff;
+  border: 2px solid #126cea;
+  padding: 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.2rem;
+}
+
+.field label {
+  font-size: 0.9rem;
+  margin-bottom: 0.4rem;
+  color: #333;
+}
+
+.inputWrapper {
+  display: flex;
+  align-items: center;
+  border: 1px solid #126cea;
+  border-radius: 10px;
+  padding: 0.6rem 0.8rem;
+  background: #ffffff;
+}
+
+.inputWrapper:focus-within {
+  border-color: #126cea;
+}
+
+.icon {
+  color: #126cea;
+  font-size: 1.1rem;
+  margin-right: 0.5rem;
+}
+
+.inputWrapper input {
+  border: none;
+  outline: none;
+  flex: 1;
+  font-size: 0.9rem;
+
+  color: #333;
+  background-color: transparent;
+
+  -webkit-text-fill-color: #333;
+}
+
+.inputWrapper input::placeholder {
+  color: #9aa0a6;
+  opacity: 1;
+}
+
+.inputWrapper input::-webkit-input-placeholder {
+  color: #9aa0a6;
+  opacity: 1;
+}
+
+.eye {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #126cea;
+  font-size: 1.1rem;
+}
+
+.error {
+  color: #e53935;
+  font-size: 0.75rem;
+  margin-top: 0.3rem;
+}
+
+.forgot {
+  background: none;
+  border: none;
+  color: #126cea;
+  font-size: 0.85rem;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  text-align: right;
+  width: 100%;
+}
+
+.generalError {
+  color: #e53935;
+  text-align: center;
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+.loginBtn {
+  width: 100%;
+  padding: 0.8rem;
+  border-radius: 12px;
+  background: #126cea;
+  color: white;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.signup {
+  color: #333;
+  line-height: 1;
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 0.85rem;
+
+  -webkit-text-fill-color: #333;
+}
+
+.signup span {
+  color: #126cea;
+  font-weight: 500;
+  -webkit-text-fill-color: #126cea;
+}
+
+.logoInline {
+  display: inline-flex;
+  align-items: center;
+  margin-left: -30px;
+}
+
+.contentWrap {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 24px 14px 28px;
+    align-items: flex-start;
+  }
+
+  .title {
+    font-size: 1.85rem;
+    margin-top: 6px;
+  }
+
+  .subtitle {
+    font-size: 0.95rem;
+    margin-top: 6px;
+    margin-bottom: 16px;
+  }
+
+  .card {
+    width: 100%;
+    max-width: 470px;
+    padding: 1.9rem;
+  }
+
+  .contentWrap {
+    max-width: 470px;
+  }
+
+  .logoInline {
+    margin-left: -18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 20px 10px 12px;
+    align-items: flex-start;
+  }
+
+  .contentWrap {
+    max-width: 100%;
+  }
+
+  .card {
+    width: 100%;
+    max-width: 360px;
+    padding: 1.2rem;
+    margin: 0 auto;
+  }
+
+  .title {
+    font-size: 1.45rem;
+    margin-top: -30px;
+    margin-bottom: 2px;
+    line-height: 1.1;
+  }
+
+  .subtitle {
+    font-size: 0.82rem;
+    margin-top: -35px;
+    margin-bottom: 20px;
+  }
+
+  .logoInline {
+    margin-left: 0;
+    width: 148px;
+    height: auto;
+  }
+
+  .field {
+    margin-bottom: 0.7rem;
+  }
+
+  .field label {
+    font-size: 0.8rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .inputWrapper {
+    padding: 0.5rem 0.65rem;
+    border-radius: 10px;
+  }
+
+  .inputWrapper input {
+    font-size: 0.82rem;
+  }
+
+  .loginBtn {
+    padding: 0.65rem;
+    border-radius: 10px;
+    font-size: 0.9rem;
+  }
+
+  .signup {
+    margin-top: 0.8rem;
+    font-size: 0.78rem;
+  }
+
+  .signup span {
+    font-size: 0.8rem;
+  }
+}
