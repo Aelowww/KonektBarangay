@@ -1,5 +1,6 @@
 import "./globals.css";
 import ClientLayout from "./client-layout";
+import { Analytics } from "@vercel/analytics/next";
 
 export const metadata = {
   title: "KonektBarangay",
@@ -26,6 +27,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <ClientLayout>{children}</ClientLayout>
+        <Analytics />
       </body>
     </html>
   );
