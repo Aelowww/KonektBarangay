@@ -1,0 +1,264 @@
+.page {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 36px 24px 60px;
+}
+
+.loadingScreen {
+  min-height: calc(100vh - 80px);
+  display: grid;
+  place-items: center;
+  padding: 2rem;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(18, 108, 234, 0.14), transparent 40%),
+    radial-gradient(circle at 85% 80%, rgba(18, 108, 234, 0.1), transparent 45%),
+    #ffffff;
+}
+
+.loadingCard {
+  width: min(440px, 100%);
+  border: 2px solid rgba(18, 108, 234, 0.2);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.96);
+  padding: 2rem 1.5rem;
+  box-shadow: 0 18px 40px rgba(18, 108, 234, 0.16);
+  text-align: center;
+}
+
+.loadingOrb {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  margin: 0 auto 1rem;
+  border: 2px solid rgba(18, 108, 234, 0.22);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  animation: loadingFloat 1.8s ease-in-out infinite;
+}
+
+.loadingOrb span {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #126cea;
+  animation: dotPulse 1.2s ease-in-out infinite;
+}
+
+.loadingOrb span:nth-child(2) {
+  animation-delay: 0.16s;
+}
+
+.loadingOrb span:nth-child(3) {
+  animation-delay: 0.32s;
+}
+
+.loadingTitle {
+  margin: 0;
+  color: #126cea;
+  font-size: 1.3rem;
+  font-weight: 800;
+}
+
+.loadingSub {
+  margin: 0.6rem 0 1.2rem;
+  color: #4b5563;
+  font-size: 0.95rem;
+}
+
+.loadingBars {
+  display: grid;
+  gap: 8px;
+}
+
+.loadingBars span {
+  display: block;
+  height: 8px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #dbeafe 0%, #93c5fd 45%, #dbeafe 100%);
+  background-size: 220% 100%;
+  animation: shimmer 1.4s linear infinite;
+}
+
+.loadingBars span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.loadingBars span:nth-child(3) {
+  width: 72%;
+  justify-self: center;
+  animation-delay: 0.4s;
+}
+
+@keyframes loadingFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes dotPulse {
+  0%,
+  100% {
+    transform: scale(0.75);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 220% 0;
+  }
+  100% {
+    background-position: -220% 0;
+  }
+}
+
+.header {
+  margin-bottom: 20px;
+}
+
+.header h1 {
+  margin: 0 0 8px;
+  font-size: 36px;
+  font-weight: 800;
+  color: #126cea;
+}
+
+.header p {
+  margin: 0;
+  color: #333;
+  font-size: 16px;
+}
+
+.list {
+  display: grid;
+  gap: 12px;
+}
+
+.card {
+  background: #f5f9ff;
+  border: 1px solid #d9e7ff;
+  border-radius: 14px;
+  padding: 16px;
+}
+
+.cardTop {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.cardTop h2 {
+  margin: 0;
+  font-size: 18px;
+  color: #126cea;
+}
+
+.cardTop span {
+  color: #333;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.card p {
+  margin: 0;
+  color: #333;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.markReadBtn {
+  margin-top: 12px;
+  border: 1px solid #126cea;
+  background: #ffffff;
+  color: #126cea;
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.markReadBtn:hover {
+  background: #126cea;
+  color: #ffffff;
+}
+
+@media (max-width: 768px) {
+  .page {
+    padding: 24px 16px 44px;
+  }
+
+  .loadingCard {
+    padding: 1.5rem 1.2rem;
+  }
+
+  .loadingTitle {
+    font-size: 1.1rem;
+  }
+
+  .loadingSub {
+    font-size: 0.88rem;
+  }
+
+  .mobileMenuSpacer {
+    display: block;
+    height: 260px;
+    width: 100%;
+    pointer-events: none;
+  }
+
+  .header h1 {
+    font-size: 30px;
+  }
+
+  .header p {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .page {
+    padding: 18px 12px 34px;
+  }
+
+  .loadingCard {
+    padding: 1.5rem 1.2rem;
+  }
+
+  .loadingTitle {
+    font-size: 1.1rem;
+  }
+
+  .loadingSub {
+    font-size: 0.88rem;
+  }
+
+  .header h1 {
+    font-size: 26px;
+  }
+
+  .card {
+    padding: 14px 12px;
+  }
+
+  .cardTop h2 {
+    font-size: 17px;
+  }
+
+  .card p {
+    font-size: 14px;
+  }
+}

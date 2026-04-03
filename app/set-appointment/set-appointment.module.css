@@ -1,0 +1,530 @@
+html,
+body {
+  height: 100%;
+}
+
+.container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 2rem;
+  min-height: 100vh;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 2rem;
+  align-items: stretch;
+}
+
+.title {
+  font-size: 3rem;
+  color: #126cea;
+  font-weight: bold;
+}
+
+.appointmentTitle {
+  font-family: "Poppins", sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+.subtitle {
+  color: #333;
+  margin-bottom: 2rem;
+}
+
+.appointmentSubtitle {
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-size: 1.5rem;
+  line-height: 1.6;
+  letter-spacing: 0.2px;
+}
+
+.boxTitle,
+.legendTitle {
+  font-weight: 600;
+  margin-bottom: 0.8rem;
+}
+
+.calendarSection,
+.timeSection {
+  border: 3px solid #126cea;
+  padding: 1.5rem;
+  border-radius: 12px;
+  color: #333;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+}
+
+.calendarHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.calendarHeader button {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #126cea;
+  font-weight: 500;
+  transition: transform 0.2s ease;
+}
+
+.calendarNavBtn svg {
+  font-size: 1.4rem;
+  stroke-width: 3;
+}
+
+.calendarHeader button:hover {
+  transform: scale(1.1);
+}
+
+.weekDays,
+.calendarGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.weekDays {
+  margin-top: 0.5rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.calendarGrid {
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.day {
+  padding: 0.7rem;
+  text-align: center;
+  border-radius: 8px;
+  background: #f9f9f9;
+  border: 1px solid #126cea;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.day:hover {
+  background: #e6f0ff;
+}
+
+.selectedDay {
+  background: #007bff;
+  color: #fff;
+  font-weight: 600;
+}
+
+.weekend {
+  background: #f2f2f2;
+  color: #333;
+  border-color: #cfd8dc;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.timeSlots {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  max-height: 330px;
+  overflow-y: auto;
+  padding-right: 6px;
+  scrollbar-width: thin;
+  scrollbar-color: #126cea #e6f0ff;
+}
+
+.timeSlot {
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: 1px solid #126cea;
+  background: #fff;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background 0.2s ease;
+}
+
+.timeSlot:hover {
+  background: #e6f0ff;
+}
+
+.active {
+  background: #126cea;
+  color: #fff;
+  font-weight: 600;
+}
+
+.timeSlots::-webkit-scrollbar {
+  width: 8px;
+}
+
+.timeSlots::-webkit-scrollbar-track {
+  background: #e6f0ff;
+  border-radius: 10px;
+}
+
+.timeSlots::-webkit-scrollbar-thumb {
+  background: #126cea;
+  border-radius: 10px;
+}
+
+.legendSection {
+  padding: 1.5rem;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.officeHours {
+  padding: 1rem;
+  border: 1px dashed #126cea;
+  border-radius: 10px;
+  margin: -1.5rem -1.5rem 1.5rem -1.5rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #333;
+  background: #fff;
+}
+
+.officeTitle {
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+  color: #333;
+}
+
+.officeNote {
+  margin-top: 0.4rem;
+  font-size: 0.85rem;
+  color: #333;
+}
+
+.legend {
+  font-size: 1rem;
+}
+
+.legend p {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.available { background: #eaf2ff; }
+.selected { background: blue; }
+.booked { background: red; }
+.unavailable { background: gray; }
+
+.actionButtons {
+  margin-top: auto;
+  display: flex;
+  gap: 0.8rem;
+  width: 100%;
+  grid-column: 2 / span 2;
+  margin-top: 2rem;
+}
+
+.confirmBtnLegend,
+.cancelBtn {
+  flex: 1 1 0;
+  width: 100%;
+  min-width: 0;
+  padding: 1rem;
+  border-radius: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.confirmBtnLegend {
+  background: #126cea;
+  color: #fff;
+  border: 1px solid #126cea;
+  transition: transform 0.2s ease;
+}
+
+.confirmBtnLegend:hover {
+  transform: translateY(-1px);
+}
+
+.cancelBtn {
+  background: #fff;
+  color: #126cea;
+  border: 1px solid #126cea;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.cancelBtn:hover {
+  background: #e6f0ff;
+  transform: translateY(-1px);
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.56);
+  backdrop-filter: blur(3px);
+  z-index: 9999;
+
+  display: grid;
+  place-items: center;
+  height: 100dvh;
+}
+
+.modal {
+  position: relative;
+  background: #fff;
+  padding: 2rem;
+  border: 2px solid #dbeafe;
+  border-radius: 18px;
+  width: 360px;
+  max-width: 90%;
+  text-align: center;
+  box-shadow: 0 24px 48px rgba(15, 23, 42, 0.22);
+}
+
+.warningModal {
+  border-color: #fecaca;
+  box-shadow: 0 24px 48px rgba(220, 38, 38, 0.18);
+}
+
+.closeBtn {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: none;
+  border: none;
+  font-size: 1.3rem;
+  cursor: pointer;
+  color: #555;
+}
+
+.closeBtn:hover {
+  color: #d93025;
+}
+
+.warningTitle {
+  color: #dc2626;
+}
+
+.okBtn {
+  margin-top: 1.2rem;
+  padding: 0.7rem 1.6rem;
+  background: #dc2626;
+  color: #fff;
+  border-radius: 10px;
+  border: 1px solid #dc2626;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.okBtn:hover {
+  background: #b91c1c;
+  border-color: #b91c1c;
+}
+
+.animatedIcon {
+  color: #126cea;
+  font-size: 1.8rem;
+  animation: floatIcon 2.5s ease-in-out infinite;
+}
+
+@keyframes floatIcon {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+  100% { transform: translateY(0); }
+}
+
+.iconTitle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 1.2rem;
+  }
+
+  .content {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .title {
+    font-size: 2.2rem;
+    line-height: 1.15;
+  }
+
+  .appointmentSubtitle {
+    font-size: 1.1rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .calendarSection,
+  .timeSection,
+  .legendSection {
+    padding: 1.2rem;
+  }
+
+  .officeHours {
+    margin: 0 0 1rem;
+  }
+
+  .actionButtons {
+    grid-column: auto;
+    margin-top: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+
+  body .container {
+    padding: 1rem;
+  }
+
+  body .content {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "office"
+      "legend"
+      "calendar"
+      "time"
+      "buttons";
+    gap: 1rem;
+  }
+
+  body .legendSection {
+    display: contents;
+  }
+
+  body.modal-open {
+    overflow: hidden;
+    height: 100vh;
+  }
+
+  body .legendGroup {
+    grid-area: legend;
+    display: flex;
+    flex-direction: column;
+    margin-left: 0;
+  }
+
+  body .officeHours {
+    grid-area: office;
+    margin: 0;
+  }
+
+  body .legendTitle {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.6rem;
+    line-height: 1.2;
+  }
+
+  body .legend {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  body .legend p {
+    margin: 0;
+  }
+
+  body .calendarSection {
+    grid-area: calendar;
+  }
+
+  body .timeSection {
+    grid-area: time;
+  }
+
+  body .actionButtons {
+    grid-area: buttons;
+    margin-top: 0;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  body .cancelBtn {
+    display: none;
+  }
+
+  body .confirmBtnLegend {
+    width: 100%;
+  }
+
+  body .title {
+    font-size: 2rem;
+    line-height: 1.2;
+  }
+
+  body .appointmentSubtitle {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  body .weekDays {
+    font-size: 0.7rem;
+  }
+
+  body .calendarGrid {
+    gap: 0.3rem;
+  }
+
+  body .day {
+    padding: 0.5rem;
+    font-size: 0.75rem;
+  }
+
+  body .timeSlots {
+    max-height: 200px;
+  }
+
+  body .timeSlot {
+    font-size: 0.85rem;
+    padding: 0.6rem;
+  }
+
+  body .modal {
+    width: 92%;
+  }
+  .overlay {
+    top: 0;
+    left: 0;
+
+    width: 100vw;
+    min-height: 100svh; 
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 1rem; 
+  }
+  
+  .modal p {
+    font-size: 0.9rem;
+    color: #333;  
+    text-align: center;
+  }
+}

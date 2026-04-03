@@ -1,0 +1,126 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #12263f;
+  --brand: #126cea;
+  --brand-strong: #0f5ad1;
+  --brand-soft: #eaf2ff;
+  --surface: #ffffff;
+  --surface-muted: #f5f8fe;
+  --border-soft: #dce9ff;
+  --text-primary: #12263f;
+  --text-secondary: #365276;
+  --shadow-soft: 0 10px 28px rgba(18, 108, 234, 0.12);
+  --shadow-strong: 0 18px 42px rgba(18, 108, 234, 0.18);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #ffffff;
+    --foreground: #ffffff;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  margin: 0;
+  max-width: 100%;
+  overflow-x: hidden;
+  background-color: #ffffff;
+}
+
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--text-primary);
+  font-family: Arial, Helvetica, sans-serif;
+  -webkit-text-size-adjust: 100%;
+}
+
+.app-shell,
+.page-content {
+  background: #ffffff;
+}
+
+.page-content {
+  position: relative;
+  padding-top: 20px;
+  isolation: isolate;
+}
+
+.page-content::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 20px;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(18, 108, 234, 1) 0%,
+      rgba(18, 108, 234, 0.9) 35%,
+      rgba(18, 108, 234, 1) 70%,
+      rgba(18, 108, 234, 0.92) 100%
+    );
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.32),
+    inset 0 -1px 0 rgba(15, 90, 209, 0.75),
+    0 6px 14px rgba(18, 108, 234, 0.22);
+  clip-path: polygon(0 0, 10% 8%, 50% 30%, 90% 8%, 100% 0, 100% 100%, 90% 92%, 50% 70%, 10% 92%, 0 100%);
+  z-index: 0;
+}
+
+.page-content::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 20px;
+  background:
+    linear-gradient(
+      112deg,
+      transparent 0%,
+      transparent 38%,
+      rgba(255, 255, 255, 0.24) 47%,
+      transparent 56%,
+      transparent 100%
+    );
+  pointer-events: none;
+  z-index: 1;
+}
+
+@media (max-width: 768px) {
+  .page-content {
+    padding-top: 16px;
+  }
+
+  .page-content::before {
+    height: 16px;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.28),
+      inset 0 -1px 0 rgba(15, 90, 209, 0.72),
+      0 4px 10px rgba(18, 108, 234, 0.2);
+    clip-path: polygon(0 0, 10% 9%, 50% 30%, 90% 9%, 100% 0, 100% 100%, 90% 91%, 50% 70%, 10% 91%, 0 100%);
+  }
+
+  .page-content::after {
+    height: 16px;
+  }
+}
+
+img,
+svg,
+video {
+  max-width: 100%;
+  height: auto;
+}

@@ -1,0 +1,41 @@
+h1.typewriter {
+  font-size: 3rem;
+  line-height: 1.25;
+  font-weight: 800;
+  color: #126cea;
+  margin-bottom: 1.8rem;
+}
+
+.typewriter {
+  font-size: 1.4rem;
+  font-weight: 600;
+  line-height: 2.0;
+  color: #333;
+  margin-bottom: 0.8rem;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .typewriter {
+    font-size: 1.1rem;      
+    line-height: 1.55;
+    margin-bottom: 0.85rem;
+  }
+
+  h1.typewriter {
+    font-size: 1.8rem;
+    font-weight: 700;      
+    line-height: 1.25;
+    margin-bottom: 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .typewriter {
+    font-size: 0.9rem;
+  }
+
+  h1.typewriter {
+    font-size: 1.6rem;
+  }
+}

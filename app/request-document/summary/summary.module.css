@@ -1,0 +1,383 @@
+.page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #ffffff;
+  padding: 20px;
+}
+
+.summaryBox {
+  width: 100%;
+  max-width: 600px;
+  position: relative;
+  background: #ffffff;
+  border: 3px solid #126cea;
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.summaryBox h1 {
+  margin-bottom: 12px;
+  font-size: 27px;
+  font-family: Poppins, sans-serif;
+  font-weight: 800;
+  color: #126cea;
+}
+
+.subtitle {
+  margin-bottom: 24px;
+  font-size: 19px;
+  font-weight: 540;
+  color: #333;
+}
+
+.field {
+  margin-bottom: 20px;
+}
+
+.field label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.field input,
+.field textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 2px solid #126cea;
+  font-size: 14px;
+}
+
+.field textarea {
+  resize: none;
+}
+
+.field input:hover,
+.field textarea:hover,
+.field input:focus,
+.field textarea:focus {
+  border-color: #126cea;
+  outline: none;
+}
+
+.detail {
+  margin-bottom: 16px;
+}
+
+.detail strong {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.summaryActions {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.summaryActions button {
+  flex: 1;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.cancel {
+  background: #ffffff;
+  border: 1px solid #126cea;
+  font-weight: 600;
+  color: #126cea;
+}
+
+.confirm {
+  background: #126cea;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(15, 23, 42, 0.56);
+  backdrop-filter: blur(3px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+}
+
+.modal {
+  background: #ffffff;
+  padding: 24px;
+  width: 90%;
+  max-width: 360px;
+  border: 2px solid #dbeafe;
+  border-radius: 18px;
+  text-align: center;
+  box-shadow: 0 24px 48px rgba(15, 23, 42, 0.22);
+}
+
+.modal h3 {
+  margin-bottom: 8px;
+  font-size: 18px;
+  font-family: Poppins, sans-serif;
+  font-weight: 700;
+  color: #126cea;
+  text-align: center;
+}
+
+.modal p {
+  font-size: 14px;
+  color: #334155;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.warningModal {
+  border-color: #fecaca;
+  box-shadow: 0 24px 48px rgba(220, 38, 38, 0.18);
+}
+
+.warningModal h3 {
+  color: #dc2626;
+}
+
+.modalActions {
+  display: flex;
+  gap: 12px;
+}
+
+.modalActions button {
+  flex: 1;
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.modalActions button:only-child {
+  background: #126cea;
+  color: #ffffff;
+  border: none;
+  font-weight: 600;
+}
+
+.modalContinue {
+  background: #126cea;
+  border: 1px solid #126cea;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.modalLeave {
+  background: #dc2626;
+  color: #ffffff;
+  border: none;
+  font-weight: 600;
+}
+
+.warningModal .modalActions button:only-child,
+.validationModal .modalActions button:only-child {
+  background: #dc2626;
+  border: 1px solid #dc2626;
+  color: #ffffff;
+}
+
+.warningModal .modalActions button:only-child:hover,
+.validationModal .modalActions button:only-child:hover {
+  background: #b91c1c;
+  border-color: #b91c1c;
+}
+
+.warningModal .validationModal .modalContinue {
+  background: #dc2626;
+  border-color: #dc2626;
+}
+
+.modalContinue {
+  background: #126cea;
+  border-color: #126cea;
+}
+
+.warningModal .validationModal .modalContinue:hover {
+  background: #b91c1c;
+  border-color: #b91c1c;
+}
+
+.modalContinue:hover {
+  background: #126cea;
+  border-color: #126cea;
+}
+
+.validationModal {
+  border-color: #fecaca !important;
+}
+
+.validationModal h3 {
+  color: #dc2626 !important;
+}
+
+.closeBtn {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: transparent;
+  font-size: 25px;
+  font-weight: 900;
+  cursor: pointer;
+  color: #126cea;
+  line-height: 1;
+}
+
+@media (max-width: 768px) {
+  .page {
+    padding: 18px;
+    align-items: flex-start;
+  }
+
+  .summaryBox {
+    max-width: 100%;
+    padding: 24px;
+  }
+
+  .summaryBox h1 {
+    font-size: 24px;
+  }
+
+  .subtitle {
+    font-size: 16px;
+  }
+
+  .summaryActions {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .summaryActions button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .page {
+    padding: 12px;
+  }
+
+  .summaryBox {
+    padding: 20px;
+    border-width: 2px;
+    border-radius: 12px;
+  }
+
+  .summaryBox h1 {
+    font-size: 22px;
+    text-align: center;
+  }
+
+  .subtitle {
+    font-size: 15px;
+    font-weight: 600;
+    text-align: center;
+  }
+
+  .summaryBox,
+  .summaryBox p,
+  .summaryBox label,
+  .summaryBox strong {
+    color: #333;
+  }
+
+  .field {
+    margin-bottom: 16px;
+  }
+
+  .field label {
+    font-size: 14px;
+  }
+
+  .field input,
+  .field textarea {
+    font-size: 14px;
+    padding: 10px;
+    background-color: #ffffff;
+    border-color: #126cea;
+  }
+
+  .detail strong,
+  .detail p {
+    font-size: 14px;
+  }
+
+  .summaryActions {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .summaryActions button {
+    width: 100%;
+    font-size: 15px;
+    padding: 12px;
+  }
+
+  .modalOverlay {
+    inset: 0;
+    width: 100vw;
+    min-height: 100svh;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal {
+    width: min(360px, 100%);
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    align-items: center;
+  }
+
+  .modal h3 {
+    font-size: 16px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .modal p {
+    font-size: 13px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .modalActions {
+    width: 100%;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modalActions button {
+    width: 100%;
+    min-height: 40px;
+    padding: 10px 16px;
+    font-size: 15px;
+    line-height: 1.2;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
