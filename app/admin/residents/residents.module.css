@@ -1,0 +1,264 @@
+.kpis {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.kpi {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+
+.kpi p {
+  margin: 0;
+  font-size: 12.5px;
+  color: var(--text-2);
+}
+
+.kpi strong {
+  display: block;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
+}
+
+.kpiIcon {
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+}
+
+.tone_gold .kpiIcon {
+  background: var(--ph-gold-soft);
+  color: #b07d00;
+}
+
+.tone_success .kpiIcon {
+  background: var(--success-soft);
+  color: var(--success);
+}
+
+.tone_brand .kpiIcon {
+  background: var(--brand-soft);
+  color: var(--brand);
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+  padding: 16px 20px;
+}
+
+.search {
+  width: min(300px, 100%);
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--border);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.row:last-child {
+  border-bottom: 0;
+}
+
+.row:hover {
+  background: var(--brand-softer);
+}
+
+.avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--brand-strong);
+  background: var(--brand-soft);
+}
+
+.info {
+  min-width: 0;
+}
+
+.info strong {
+  display: block;
+  font-size: 14.5px;
+  font-weight: 600;
+}
+
+.info span,
+.info small {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.info span {
+  font-size: 13px;
+  color: var(--text-2);
+}
+
+.info small {
+  font-size: 12px;
+  color: var(--text-3);
+}
+
+.st_pending {
+  background: var(--warning-soft);
+  color: var(--warning);
+}
+
+.st_approved {
+  background: var(--success-soft);
+  color: var(--success);
+}
+
+.st_rejected {
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+  min-width: 190px;
+}
+
+@media (max-width: 760px) {
+  .kpis {
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+  }
+
+  .kpi {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 12px;
+  }
+
+  .toolbar :global(.kb-tabs),
+  .search {
+    width: 100%;
+  }
+
+  .row {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    padding: 14px 16px;
+  }
+
+  .actions {
+    grid-column: 1 / -1;
+    justify-content: flex-start;
+    min-width: 0;
+  }
+}
+
+.reviewModal {
+  width: min(760px, 100%);
+  text-align: left;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+}
+
+.reviewModal h3 {
+  margin-bottom: 16px;
+}
+
+.reviewGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  gap: 18px;
+  align-items: start;
+}
+
+.idFrame {
+  min-height: 220px;
+  display: grid;
+  place-items: center;
+  padding: 8px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--surface-muted);
+  text-align: center;
+}
+
+.idFrame p {
+  margin: 0;
+  padding: 20px;
+  font-size: 13.5px;
+  color: var(--text-2);
+}
+
+.idFrame img {
+  display: block;
+  max-width: 100%;
+  max-height: 380px;
+  border-radius: 8px;
+  object-fit: contain;
+}
+
+.details {
+  margin: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.details dt {
+  font-size: 12px;
+  color: var(--text-3);
+}
+
+.details dd {
+  margin: 1px 0 0;
+  font-size: 14px;
+  font-weight: 500;
+  word-break: break-word;
+}
+
+.bigName {
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  color: var(--navy);
+}
+
+.checkHint {
+  margin: 18px 0 8px !important;
+  font-size: 13px !important;
+  color: var(--text-2);
+}
+
+@media (max-width: 680px) {
+  .reviewGrid {
+    grid-template-columns: 1fr;
+  }
+}

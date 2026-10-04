@@ -45,6 +45,17 @@ NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 ```
 
+Optional — Cloudflare Turnstile "verify you're human" check:
+
+```env
+NEXT_PUBLIC_TURNSTILE_SITE_KEY=your_turnstile_site_key
+```
+
+## Security Setup
+
+Email OTP verification, anti-spam limits and role protection need a few Supabase dashboard settings and a SQL
+script. Follow [`supabase/README.md`](supabase/README.md).
+
 ## Project Structure
 
 - `app/request-document/` handles document request flow

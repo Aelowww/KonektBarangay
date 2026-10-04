@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import styles from "./manage-services.module.css";
 import supabase from "../../lib/supabaseClient";
+import { IconAlert, IconLock } from "../components/icons";
 
 export default function ManageServicesPage() {
   const router = useRouter();
@@ -70,20 +71,11 @@ export default function ManageServicesPage() {
 
   if (loading) {
     return (
-      <main className={styles.loadingScreen} role="status" aria-live="polite">
-        <div className={styles.loadingCard}>
-          <div className={styles.loadingOrb} aria-hidden="true">
-            <span />
-            <span />
-            <span />
-          </div>
-          <h2 className={styles.loadingTitle}>Preparing your dashboard</h2>
-          <p className={styles.loadingSub}>Checking your account and routing your view...</p>
-          <div className={styles.loadingBars} aria-hidden="true">
-            <span />
-            <span />
-            <span />
-          </div>
+      <main className="kb-loader" role="status" aria-live="polite">
+        <div className="kb-loader-inner">
+          <div className="kb-spinner" />
+          <h2>Preparing your dashboard</h2>
+          <p>Checking your account and routing your view...</p>
         </div>
       </main>
     );
@@ -92,50 +84,21 @@ export default function ManageServicesPage() {
   if (!isLoggedIn) {
     return (
       <div className={styles.page}>
-        <div className={styles.card}>
-          <div className={styles.lockWrapper}>
-            <svg
-              className={styles.lockIcon}
-              width="56"
-              height="56"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M7 10V7a5 5 0 0 1 10 0v3"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-              />
-              <rect
-                x="5"
-                y="10"
-                width="14"
-                height="10"
-                rx="2"
-                stroke="currentColor"
-                strokeWidth="2"
-              />
-              <circle cx="12" cy="15" r="1.5" fill="currentColor" />
-            </svg>
+        <div className={`kb-card ${styles.card}`}>
+          <div className="kb-modal-icon">
+            <IconLock size={30} />
           </div>
-
-          <h1 className={styles.title}>Login Required</h1>
-
+          <h1 className={styles.title}>Login required</h1>
           <p className={styles.description}>
-            Please log in to view your service request and access barangay
-            services. This helps ensure proper permission and secure handling of
-            service information.
+            Please log in to view your service requests and access barangay services. This helps ensure proper
+            permission and secure handling of service information.
           </p>
-
           <div className={styles.actions}>
-            <Link href="/login" className={styles.loginBtn}>
-              Log In
-            </Link>
-
-            <Link href="/" className={styles.secondaryBtn}>
+            <Link href="/" className="kb-btn kb-btn-secondary">
               Back to Home
+            </Link>
+            <Link href="/login?next=/manage-services" className="kb-btn kb-btn-primary">
+              Log in
             </Link>
           </div>
         </div>
@@ -146,13 +109,26 @@ export default function ManageServicesPage() {
   if (routeError) {
     return (
       <div className={styles.page}>
-        <div className={styles.card}>
-          <h1 className={styles.title}>Unable to Open Manage Services</h1>
+        <div className={`kb-card ${styles.card}`}>
+          <div className="kb-modal-icon is-warning">
+            <IconAlert size={30} />
+          </div>
+          <h1 className={styles.title}>Unable to open Manage Services</h1>
           <p className={styles.description}>{routeError}</p>
           <div className={styles.actions}>
             <button
               type="button"
-              className={styles.loginBtn}
+              className="kb-btn kb-btn-secondary"
+              onClick={async () => {
+                await supabase.auth.signOut();
+                router.replace("/login");
+              }}
+            >
+              Log out
+            </button>
+            <button
+              type="button"
+              className="kb-btn kb-btn-primary"
               onClick={() => {
                 setLoading(true);
                 setRouteError(null);
@@ -160,17 +136,6 @@ export default function ManageServicesPage() {
               }}
             >
               Retry
-            </button>
-
-            <button
-              type="button"
-              className={styles.secondaryBtn}
-              onClick={async () => {
-                await supabase.auth.signOut();
-                router.replace("/login");
-              }}
-            >
-              Log Out
             </button>
           </div>
         </div>

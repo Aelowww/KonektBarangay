@@ -4,6 +4,21 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import styles from "./manage-services.module.css";
 import supabase from "@/lib/supabaseClient";
+import { formatDate, normalizeStatus } from "@/lib/documents";
+import {
+  DocumentSpot,
+  IconAlert,
+  IconCheck,
+  IconCheckCircle,
+  IconClipboard,
+  IconClock,
+  IconClose,
+  IconEye,
+  IconInbox,
+  IconRefresh,
+  IconSearch,
+  SpotTrack,
+} from "@/app/components/icons";
 
 type RequestRow = {
   id: string;
@@ -11,6 +26,7 @@ type RequestRow = {
   full_name: string | null;
   date_of_birth: string | null;
   document_type: string | null;
+  other_document?: string | null;
   appointment_date: string | null;
   appointment_time: string | null;
   status: string | null;
@@ -19,10 +35,6 @@ type RequestRow = {
 };
 
 const STATUS_FILTERS = ["pending", "approved", "rejected", "cancelled", "completed"] as const;
-
-function statusText(s: string | null) {
-  return (s ?? "pending").toLowerCase();
-}
 
 export default function AdminManageServicesPage() {
   const router = useRouter();
@@ -127,11 +139,20 @@ export default function AdminManageServicesPage() {
     };
   }, [authorized, loadRequests]);
 
+  const counts = useMemo(() => {
+    const c: Record<string, number> = { "": requests.length };
+    requests.forEach((r) => {
+      const s = normalizeStatus(r.status);
+      c[s] = (c[s] ?? 0) + 1;
+    });
+    return c;
+  }, [requests]);
+
   const filtered = useMemo(() => {
     const s = search.trim().toLowerCase();
 
     return requests.filter((r) => {
-      const st = statusText(r.status);
+      const st = normalizeStatus(r.status);
       const matchStatus = filterStatus ? st === filterStatus : true;
 
       const matchSearch =
@@ -160,29 +181,17 @@ export default function AdminManageServicesPage() {
     setActionLoading(false);
   };
 
-  // ✅ Option 1: Admin uses the SAME summary page, but with an "admin=1" flag
   const goToSummary = (id: string) => {
     router.push(`/request-document/summary?id=${id}&admin=1`);
   };
 
   if (accessChecking) {
     return (
-      <div className={styles.page}>
-        <div className={styles.loadingWrap} role="status" aria-live="polite">
-          <div className={styles.loadingCard}>
-            <div className={styles.loadingOrb} aria-hidden="true">
-              <span />
-              <span />
-              <span />
-            </div>
-            <div className={styles.loadingTitle}>Checking admin access</div>
-            <div className={styles.loadingSub}>Verifying your permissions...</div>
-            <div className={styles.loadingBars} aria-hidden="true">
-              <span />
-              <span />
-              <span />
-            </div>
-          </div>
+      <div className="kb-loader" role="status" aria-live="polite">
+        <div className="kb-loader-inner">
+          <div className="kb-spinner" />
+          <h2>Loading requests</h2>
+          <p>Fetching the latest updates...</p>
         </div>
       </div>
     );
@@ -192,149 +201,190 @@ export default function AdminManageServicesPage() {
     return null;
   }
 
+  const kpis = [
+    { label: "Total Requests", value: counts[""] ?? 0, icon: IconInbox, tone: "brand" },
+    { label: "Pending", value: counts.pending ?? 0, icon: IconClock, tone: "warning" },
+    { label: "Approved", value: counts.approved ?? 0, icon: IconCheckCircle, tone: "brand" },
+    { label: "Completed", value: counts.completed ?? 0, icon: IconClipboard, tone: "success" },
+  ];
+
   return (
-    <div className={styles.page}>
-      <h1 className={styles.title}>Manage Request</h1>
-
-      <div className={styles.controls}>
-        <div className={styles.controlGroup}>
-          <label className={styles.label}>Status</label>
-          <select
-            className={styles.select}
-            value={filterStatus}
-            onChange={(e) => setFilterStatus(e.target.value)}
-          >
-            {STATUS_FILTERS.map((s) => (
-              <option key={s} value={s}>
-                {s.toUpperCase()}
-              </option>
-            ))}
-            <option value="">ALL</option>
-          </select>
+    <div className="kb-page">
+      <header className="kb-page-head">
+        <div>
+          <p className="kb-eyebrow">Administration</p>
+          <h1 className="kb-title">Manage requests</h1>
+          <p className="kb-subtitle">Review, approve, and release resident document requests.</p>
         </div>
-
-        <div className={styles.controlGroupWide}>
-          <label className={styles.label}>Search</label>
-          <input
-            className={styles.input}
-            placeholder="Search name, document type, or request id"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-        </div>
-
-        <button className={styles.refreshBtn} onClick={refreshRequests} disabled={loading}>
-          {loading ? "Loading..." : "Refresh"}
+        <button className="kb-btn kb-btn-secondary" onClick={refreshRequests} disabled={loading}>
+          <IconRefresh size={17} className={loading ? styles.spin : ""} /> {loading ? "Loading..." : "Refresh"}
         </button>
-      </div>
+      </header>
 
-      {error && <div className={styles.errorBox}>⚠ {error}</div>}
-
-      <div className={styles.list}>
-        {loading ? (
-          <div className={styles.loadingWrap} role="status" aria-live="polite">
-            <div className={styles.loadingCard}>
-              <div className={styles.loadingOrb} aria-hidden="true">
-                <span />
-                <span />
-                <span />
-              </div>
-              <div className={styles.loadingTitle}>Loading requests</div>
-              <div className={styles.loadingSub}>Fetching the latest updates...</div>
-              <div className={styles.loadingBars} aria-hidden="true">
-                <span />
-                <span />
-                <span />
-              </div>
+      <section className={styles.kpis}>
+        {kpis.map(({ label, value, icon: Icon, tone }) => (
+          <article key={label} className={`${styles.kpi} ${styles[`tone_${tone}`]}`}>
+            <span className={styles.kpiIcon}>
+              <Icon size={20} />
+            </span>
+            <div>
+              <p>{label}</p>
+              <strong>{value}</strong>
             </div>
+          </article>
+        ))}
+      </section>
+
+      <section className="kb-card">
+        <div className={styles.toolbar}>
+          <div className="kb-tabs" role="tablist">
+            {[...STATUS_FILTERS, ""].map((s) => (
+              <button
+                key={s || "all"}
+                role="tab"
+                aria-selected={filterStatus === s}
+                className={`kb-tab ${filterStatus === s ? "is-active" : ""}`}
+                onClick={() => setFilterStatus(s)}
+              >
+                {s || "All"}
+                <span className="kb-tab-count">{counts[s] ?? 0}</span>
+              </button>
+            ))}
+          </div>
+
+          <div className={`kb-input-wrap ${styles.search}`}>
+            <IconSearch size={18} />
+            <input
+              className="kb-input"
+              placeholder="Search name, document, or ID"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              aria-label="Search requests"
+            />
+          </div>
+        </div>
+
+        {error && (
+          <div className="kb-alert" style={{ margin: "0 20px 16px" }}>
+            <IconAlert size={18} /> {error}
+          </div>
+        )}
+
+        {loading ? (
+          <div className={styles.skeletons}>
+            {[0, 1, 2, 3].map((i) => (
+              <span key={i} className="kb-skeleton" />
+            ))}
           </div>
         ) : filtered.length === 0 ? (
-          <div>No requests found.</div>
+          <div className="kb-empty">
+            <SpotTrack size={80} />
+            <h3>No requests found</h3>
+            <p>There are no {filterStatus || ""} requests matching your search.</p>
+          </div>
         ) : (
-          filtered.map((r) => {
-            const st = statusText(r.status);
-            const isCancelled = st === "cancelled";
-            const isCompleted = st === "completed";
-            const isApproved = st === "approved";
+          <div className={styles.table} role="table">
+            <div className={styles.thead} role="row">
+              <span role="columnheader">Document</span>
+              <span role="columnheader">Resident</span>
+              <span role="columnheader">Schedule</span>
+              <span role="columnheader">Status</span>
+              <span role="columnheader" className={styles.alignRight}>
+                Actions
+              </span>
+            </div>
 
-            // If cancelled OR completed, disable View/Approve/Reject
-            const disablePrimary = actionLoading || isCancelled || isCompleted;
+            {filtered.map((r) => {
+              const st = normalizeStatus(r.status);
+              const isCancelled = st === "cancelled";
+              const isCompleted = st === "completed";
+              const isApproved = st === "approved";
+              const isRejected = st === "rejected";
 
-            return (
-              <div key={r.id} className={styles.card}>
-                <div className={styles.info}>
-                  <p className={styles.rowTitle}>{r.document_type ?? "—"}</p>
+              const disablePrimary = actionLoading || isCancelled || isCompleted;
+              const docTitle =
+                r.document_type === "Other Document Request" && r.other_document ? r.other_document : r.document_type;
 
-                  <p>
-                    <b>Name:</b> {r.full_name ?? "—"}
-                  </p>
-
-                  <p>
-                    <b>Schedule:</b> {r.appointment_date ?? "—"} • {r.appointment_time ?? "—"}
-                  </p>
-
-                  <p>
-                    <b>Request ID:</b> <span className={styles.mono}>{r.id}</span>
-                  </p>
-
-                  <div className={styles.status}>
-                    <span className={`${styles.statusDot} ${styles[st]}`} />
-                    <span>{st.toUpperCase()}</span>
+              return (
+                <div key={r.id} className={styles.row} role="row">
+                  <div className={styles.docCell} role="cell">
+                    <DocumentSpot type={r.document_type} size={42} />
+                    <div>
+                      <strong>{docTitle ?? "—"}</strong>
+                      <span className="kb-mono">#{r.id.slice(0, 8)}</span>
+                    </div>
                   </div>
 
-                  {isApproved && (
-                    <p className={styles.approvedMsg}>
-                      You can now pick up your document at your chosen date
-                      <br />
-                      and time.
-                    </p>
-                  )}
-                </div>
+                  <div className={styles.cell} role="cell">
+                    <span className={styles.cellLabel}>Resident</span>
+                    <strong>{r.full_name ?? "—"}</strong>
+                    <small>Filed {formatDate(r.created_at)}</small>
+                  </div>
 
-                <div className={styles.actions} onClick={(e) => e.stopPropagation()}>
-                  <button className={styles.viewBtn} disabled={disablePrimary} onClick={() => goToSummary(r.id)}>
-                    View Info
-                  </button>
+                  <div className={styles.cell} role="cell">
+                    <span className={styles.cellLabel}>Schedule</span>
+                    <strong>{formatDate(r.appointment_date)}</strong>
+                    <small>{r.appointment_time ?? "—"}</small>
+                  </div>
 
-                  <button
-                    className={styles.approveBtn}
-                    disabled={disablePrimary || isApproved || st === "rejected"}
-                    onClick={() => updateStatus(r.id, "approved")}
-                  >
-                    Approve
-                  </button>
+                  <div className={styles.cell} role="cell">
+                    <span className={styles.cellLabel}>Status</span>
+                    <span className={`kb-status kb-status-${st}`}>{st}</span>
+                    {isApproved && <small className={styles.approvedMsg}>Ready for pickup</small>}
+                  </div>
 
-                  <button
-                    className={styles.rejectBtn}
-                    disabled={disablePrimary || st === "rejected" || isApproved}
-                    onClick={() => updateStatus(r.id, "rejected")}
-                  >
-                    Reject
-                  </button>
-
-                  {isCancelled ? (
-                    <button className={styles.cancelledBtn} disabled>
-                      Cancelled
-                    </button>
-                  ) : isCompleted ? (
-                    <button className={styles.completedBtn} disabled>
-                      Completed
-                    </button>
-                  ) : (
+                  <div className={styles.actions} role="cell">
                     <button
-                      className={styles.completeBtn}
-                      disabled={actionLoading || !isApproved}
-                      onClick={() => updateStatus(r.id, "completed")}
+                      className={styles.iconAction}
+                      disabled={disablePrimary}
+                      onClick={() => goToSummary(r.id)}
+                      title="View info"
+                      aria-label="View info"
                     >
-                      Mark Completed
+                      <IconEye size={17} />
                     </button>
-                  )}
+
+                    {st === "pending" && (
+                      <>
+                        <button
+                          className="kb-btn kb-btn-success kb-btn-sm"
+                          disabled={disablePrimary || isApproved || isRejected}
+                          onClick={() => updateStatus(r.id, "approved")}
+                        >
+                          <IconCheck size={15} /> Approve
+                        </button>
+                        <button
+                          className="kb-btn kb-btn-danger-soft kb-btn-sm"
+                          disabled={disablePrimary || isRejected || isApproved}
+                          onClick={() => updateStatus(r.id, "rejected")}
+                        >
+                          <IconClose size={14} /> Reject
+                        </button>
+                      </>
+                    )}
+
+                    {isApproved && (
+                      <button
+                        className="kb-btn kb-btn-primary kb-btn-sm"
+                        disabled={actionLoading}
+                        onClick={() => updateStatus(r.id, "completed")}
+                      >
+                        Mark completed
+                      </button>
+                    )}
+
+                    {(isCancelled || isCompleted || isRejected) && (
+                      <span className={styles.finalNote}>
+                        {isCompleted ? "Released" : isCancelled ? "Cancelled by resident" : "Rejected"}
+                      </span>
+                    )}
+                  </div>
                 </div>
-              </div>
-            );
-          })
+              );
+            })}
+          </div>
         )}
-      </div>
+      </section>
     </div>
   );
 }

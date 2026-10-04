@@ -1,95 +1,35 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { createPortal } from "react-dom";
-import styles from "./request-document.module.css";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import supabase from "../../lib/supabaseClient";
-import {
-  FileText,
-  BadgeCheck,
-  Home,
-  HandHeart,
-  Briefcase,
-  IdCard,
-  ShieldCheck,
-  UserCheck,
-  MoreHorizontal,
-  X,
-} from "lucide-react";
+import styles from "./request-document.module.css";
+import { DOCUMENTS } from "../../lib/documents";
+import { useAuth } from "../components/AuthProvider";
+import Stepper from "../components/Stepper";
+import { useResidentOnly } from "../components/useResidentOnly";
+import { DocumentSpot, IconArrowRight, IconClock, IconSearch } from "../components/icons";
+import VerificationBanner from "../components/VerificationBanner";
 
 export default function RequestDocumentPage() {
   const router = useRouter();
-  const isClient = typeof window !== "undefined";
+  const { user, verification, idSubmitted } = useAuth();
+  const blocked = useResidentOnly();
+  const isLoggedIn = !!user;
+  const needsIdUpload = verification === "rejected" || !idSubmitted;
 
-  const [showLoginPrompt, setShowLoginPrompt] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => {
-      setIsLoggedIn(!!data.session);
-    });
-
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      setIsLoggedIn(!!session);
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
-
-  const documents = [
-    {
-      title: "Barangay Clearance",
-      description: "Required for employment, school, and legal purposes.",
-      icon: FileText,
-    },
-    {
-      title: "Barangay Certificate",
-      description: "A general certification issued by the barangay.",
-      icon: BadgeCheck,
-    },
-    {
-      title: "Certificate of Residency",
-      description: "Proof that you are a registered resident of the barangay.",
-      icon: Home,
-    },
-    {
-      title: "Certificate of Indigency",
-      description: "Issued to residents who need financial assistance.",
-      icon: HandHeart,
-    },
-    {
-      title: "Barangay Business Clearance",
-      description: "Required for business registration and permits.",
-      icon: Briefcase,
-    },
-    {
-      title: "Barangay ID Application",
-      description: "Apply for an official barangay-issued ID.",
-      icon: IdCard,
-    },
-    {
-      title: "Certificate of Good Moral Character",
-      description: "Certifies that the resident is of good moral standing.",
-      icon: ShieldCheck,
-    },
-    {
-      title: "Certificate of First-Time Job Seeker",
-      description: "Issued to first-time job seekers for employment purposes.",
-      icon: UserCheck,
-    },
-    {
-      title: "Other Document Request",
-      description: "Request a document not listed above by providing details.",
-      icon: MoreHorizontal,
-    },
-  ];
+  const [showUnverified, setShowUnverified] = useState(false);
+  const [query, setQuery] = useState("");
 
   const handleSelect = (docTitle: string) => {
     if (!isLoggedIn) {
-      setShowLoginPrompt(true);
+      router.push("/login?next=/request-document");
+      return;
+    }
+
+    if (verification && verification !== "approved") {
+      setShowUnverified(true);
       return;
     }
 
@@ -103,65 +43,85 @@ export default function RequestDocumentPage() {
     router.push("/set-appointment");
   };
 
+  const q = query.trim().toLowerCase();
+  const visible = DOCUMENTS.filter(
+    (d) => !q || d.title.toLowerCase().includes(q) || d.description.toLowerCase().includes(q)
+  );
+
+  if (blocked) return null;
+
   return (
     <>
-      <main className={styles.container}>
-        <header className={styles.header}>
-          <h1>{isLoggedIn ? "Request Barangay Document" : "KonektBarangay Services"}</h1>
-          <p>
-            {isLoggedIn
-              ? "Select the document you need and submit your request online."
-              : "All barangay services available through KonektBarangay platform."}
-          </p>
+      <main className="kb-page">
+        {isLoggedIn && <Stepper current={1} />}
+        {isLoggedIn && <VerificationBanner />}
+
+        <header className="kb-page-head">
+          <div>
+            <p className="kb-eyebrow">Barangay Services</p>
+            <h1 className="kb-title">{isLoggedIn ? "Request a barangay document" : "Barangay Services"}</h1>
+            <p className="kb-subtitle">
+              {isLoggedIn
+                ? "Select the document you need, then choose your preferred pickup schedule."
+                : "Documents you can request online. Log in to start a request."}
+            </p>
+          </div>
+
+          <div className={`kb-input-wrap ${styles.search}`}>
+            <IconSearch size={18} />
+            <input
+              className="kb-input"
+              placeholder="Search documents"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              aria-label="Search documents"
+            />
+          </div>
         </header>
 
         <section className={styles.grid}>
-          {documents.map((doc, index) => {
-            const Icon = doc.icon;
-
-            return (
-              <div key={index} className={styles.card}>
-                <Icon className={styles.icon} />
-
+          {visible.map((doc) => (
+            <button key={doc.title} type="button" className={styles.card} onClick={() => handleSelect(doc.title)}>
+              <DocumentSpot type={doc.title} size={48} />
+              <div className={styles.cardBody}>
                 <h3>{doc.title}</h3>
-
-                <div className={styles.cardFooter}>
-                  <p>{doc.description}</p>
-
-                  <button
-                    className={styles.selectBtn}
-                    onClick={() => handleSelect(doc.title)}
-                  >
-                    Select
-                  </button>
-                </div>
+                <p>{doc.description}</p>
               </div>
-            );
-          })}
+              <IconArrowRight size={18} className={styles.arrow} />
+            </button>
+          ))}
+          {visible.length === 0 && (
+            <div className={`kb-card kb-empty ${styles.noResults}`}>
+              <h3>No documents match &ldquo;{query}&rdquo;</h3>
+              <p>Try a different keyword, or choose &ldquo;Other Document Request&rdquo;.</p>
+            </div>
+          )}
         </section>
       </main>
 
-      {isClient &&
-        showLoginPrompt &&
+      {showUnverified &&
         createPortal(
-          <div className={styles.loginOverlay}>
-            <div className={styles.loginModal}>
-              <button
-                className={styles.loginCloseBtn}
-                onClick={() => setShowLoginPrompt(false)}
-              >
-                <X size={18} />
-              </button>
-
-              <h2>Login Required</h2>
-              <p>Please login first to continue your request.</p>
-
-              <button
-                className={styles.loginModalBtn}
-                onClick={() => router.push("/login")}
-              >
-                Login
-              </button>
+          <div className="kb-modal-overlay" onClick={() => setShowUnverified(false)}>
+            <div className="kb-modal" onClick={(e) => e.stopPropagation()}>
+              <div className="kb-modal-icon is-warning">
+                <IconClock size={30} />
+              </div>
+              <h3>{needsIdUpload ? "Verify your identity first" : "Verification in progress"}</h3>
+              <p>
+                {needsIdUpload
+                  ? "Upload a photo of a valid ID showing your registered name. Once the barangay verifies it, you can request documents."
+                  : "The barangay is reviewing your ID. You can request documents once it's approved. We'll notify you."}
+              </p>
+              <div className="kb-modal-actions">
+                <button className="kb-btn kb-btn-secondary" onClick={() => setShowUnverified(false)}>
+                  {needsIdUpload ? "Later" : "OK"}
+                </button>
+                {needsIdUpload && (
+                  <Link href="/verify-identity" className="kb-btn kb-btn-primary">
+                    Upload ID
+                  </Link>
+                )}
+              </div>
             </div>
           </div>,
           document.body

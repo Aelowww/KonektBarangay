@@ -1,6 +1,15 @@
 import "./globals.css";
+import "./shell.css";
+import { Poppins } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import ClientLayout from "./client-layout";
+
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+  variable: "--font-poppins",
+  display: "swap",
+});
 
 export const metadata = {
   title: "KonektBarangay",
@@ -16,6 +25,7 @@ export const viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
+  themeColor: "#0b1f44",
 };
 
 export default function RootLayout({
@@ -24,7 +34,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className={poppins.variable}>
       <body>
         <ClientLayout>{children}</ClientLayout>
         <Analytics />

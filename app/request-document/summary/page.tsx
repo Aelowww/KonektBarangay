@@ -5,15 +5,44 @@ import { createPortal } from "react-dom";
 import { useRouter, useSearchParams } from "next/navigation";
 import supabase from "../../../lib/supabaseClient";
 import styles from "./summary.module.css";
+import Stepper from "../../components/Stepper";
+import { useResidentOnly } from "../../components/useResidentOnly";
+import { useAuth } from "../../components/AuthProvider";
+import { normalizeStatus } from "../../../lib/documents";
+import {
+  DocumentSpot,
+  IconAlert,
+  IconArrowLeft,
+  IconCalendar,
+  IconCheckCircle,
+  IconClock,
+  IconInfo,
+} from "../../components/icons";
 
 type DocumentRequest = {
   documentType?: string;
   appointmentDate?: string;
   appointmentDateLabel?: string;
   appointmentTime?: string;
+  status?: string;
 };
 
 const ISO_DATE_REGEX = /^\d{4}-\d{2}-\d{2}$/;
+
+const MAX_PENDING_REQUESTS = 3;
+
+function requestLimitMessage(lower: string) {
+  if (lower.includes("kb_pending_limit"))
+    return `You already have ${MAX_PENDING_REQUESTS} pending requests. Please wait for them to be processed.`;
+  if (lower.includes("kb_duplicate")) return "You already have a pending request for this document.";
+  if (lower.includes("kb_daily_limit")) return "You've reached today's request limit. Please try again tomorrow.";
+  if (lower.includes("kb_bad_date")) return "Please choose a weekday that is today or later.";
+  if (lower.includes("kb_too_long")) return "Some fields are too long. Please shorten your entries.";
+  if (lower.includes("kb_unverified")) return "Please verify your email address before submitting requests.";
+  if (lower.includes("kb_not_approved")) return "Your account is still awaiting barangay verification.";
+  if (lower.includes("kb_admin")) return "Administrator accounts cannot file document requests.";
+  return null;
+}
 
 function isExactIsoDate(value: string) {
   if (!ISO_DATE_REGEX.test(value)) return false;
@@ -102,6 +131,8 @@ function SummaryPageContent() {
   const adminFlag = searchParams.get("admin");
   const isAdminView = adminFlag === "1";
   const isViewMode = Boolean(requestId);
+  const blocked = useResidentOnly(!isViewMode);
+  const { verification } = useAuth();
   const backPath = isAdminView ? "/admin/manage-services" : "/resident/manage-services";
 
   const [data, setData] = useState<DocumentRequest | null>(null);
@@ -171,6 +202,7 @@ function SummaryPageContent() {
           appointmentDate: data.appointment_date,
           appointmentDateLabel: toDateLabel(data.appointment_date ?? ""),
           appointmentTime: data.appointment_time,
+          status: data.status,
         });
 
         setFullName(data.full_name ?? "");
@@ -211,6 +243,11 @@ function SummaryPageContent() {
         appointmentDateLabel:
           parsed.appointmentDateLabel ?? toDateLabel(parsed.appointmentDate),
       });
+
+      const meta = auth.session.user.user_metadata ?? {};
+      if (meta.username && typeof meta.full_name === "string") {
+        setFullName((prev) => prev || meta.full_name);
+      }
     });
   }, [router, isViewMode, requestId, backPath, openNotice, isAdminView]);
 
@@ -232,8 +269,8 @@ function SummaryPageContent() {
     const handleClick = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
 
-      if (target.closest(`.${styles.modal}`)) return;
-      if (target.closest(`.${styles.confirm}`)) return;
+      if (target.closest(".kb-modal")) return;
+      if (target.closest("[data-submit]")) return;
 
       const link = target.closest("a") as HTMLAnchorElement | null;
       if (!link?.href) return;
@@ -251,7 +288,7 @@ function SummaryPageContent() {
     };
   }, [isViewMode]);
 
-  if (!data) return null;
+  if (!data || blocked) return null;
 
   const handleLeavePage = () => {
     localStorage.removeItem("documentRequest");
@@ -317,6 +354,41 @@ function SummaryPageContent() {
         return;
       }
 
+      if (verification && verification !== "approved") {
+        openNotice(
+          verification === "rejected" ? "Account Not Approved" : "Verification In Progress",
+          verification === "rejected"
+            ? "Please visit the barangay hall with a valid ID so staff can verify your account."
+            : "The barangay is still verifying your account. You can submit requests once it's approved."
+        );
+        return;
+      }
+
+      const { data: pendingRows } = await supabase
+        .from("document_requests")
+        .select("document_type, status")
+        .eq("user_id", user.id)
+        .eq("status", "pending");
+
+      const pending = pendingRows ?? [];
+      if (pending.length >= MAX_PENDING_REQUESTS) {
+        openNotice(
+          "Too Many Pending Requests",
+          `You already have ${MAX_PENDING_REQUESTS} pending requests. Please wait for the barangay to process them, or cancel one in My Requests.`
+        );
+        return;
+      }
+      if (
+        data.documentType !== "Other Document Request" &&
+        pending.some((r) => r.document_type === data.documentType)
+      ) {
+        openNotice(
+          "Duplicate Request",
+          `You already have a pending ${data.documentType} request. Please wait for it to be processed.`
+        );
+        return;
+      }
+
       const { error } = await supabase
         .from("document_requests")
         .insert({
@@ -354,8 +426,11 @@ function SummaryPageContent() {
           .toLowerCase();
 
         let friendlyMessage = "Failed to submit request. Please try again.";
+        const limitMessage = requestLimitMessage(lowerMessage);
 
-        if (
+        if (limitMessage) {
+          friendlyMessage = limitMessage;
+        } else if (
           lowerMessage.includes("row-level security") ||
           lowerMessage.includes("permission") ||
           lowerMessage.includes("not allowed")
@@ -381,131 +456,191 @@ function SummaryPageContent() {
     }
   };
 
+  const status = normalizeStatus(data.status);
+  const docName =
+    data.documentType === "Other Document Request" && otherDocument ? otherDocument : data.documentType;
+
   return (
     <>
-      <main className={styles.page}>
-        <div className={styles.summaryBox}>
+      <main className="kb-page kb-page-narrow">
+        {!isViewMode && <Stepper current={3} />}
+
+        <header className="kb-page-head">
+          <div>
+            <p className="kb-eyebrow">{isViewMode ? "Request Record" : "Step 3 of 3"}</p>
+            <h1 className="kb-title">{isViewMode ? "Request details" : "Review your request"}</h1>
+            <p className="kb-subtitle">
+              {isViewMode
+                ? "Below are the details of the submitted request."
+                : "Complete your details and confirm everything before submitting."}
+            </p>
+          </div>
           {isViewMode && (
-            <button className={styles.closeBtn} onClick={() => router.push(backPath)} aria-label="Close">
-              x
+            <button className="kb-btn kb-btn-secondary kb-btn-sm" onClick={() => router.push(backPath)}>
+              <IconArrowLeft size={16} /> Back to {isAdminView ? "requests" : "my requests"}
             </button>
           )}
+        </header>
 
-          <h1>{isViewMode ? "Request Details" : "Request Summary"}</h1>
-          <p className={styles.subtitle}>
-            {isViewMode
-              ? "Below are the details of the submitted request."
-              : "Please review your request details before submission."}
-          </p>
-
-          <div className={styles.field}>
-            <label>Full Name:</label>
-            <input
-              type="text"
-              value={fullName}
-              readOnly={isViewMode}
-              onChange={(e) => setFullName(e.target.value)}
-              placeholder="Enter your full name"
-            />
-          </div>
-
-          <div className={styles.field}>
-            <label>Date of Birth:</label>
-            <input
-              type="text"
-              value={dob}
-              readOnly={isViewMode}
-              placeholder="MM-DD-YYYY"
-              maxLength={10}
-              onChange={(e) => {
-                if (isViewMode) return;
-
-                let value = e.target.value.replace(/\D/g, "");
-                if (value.length > 2 && value.length <= 4) {
-                  value = `${value.slice(0, 2)}-${value.slice(2)}`;
-                } else if (value.length > 4) {
-                  value = `${value.slice(0, 2)}-${value.slice(2, 4)}-${value.slice(4, 8)}`;
-                }
-                setDob(value);
-              }}
-            />
-          </div>
-
-          <div className={styles.detail}>
-            <strong>Document Requested:</strong>
-            <p>{data.documentType}</p>
-          </div>
-
-          {data.documentType === "Other Document Request" && (
-            <div className={styles.field}>
-              <label>Specify Other Document:</label>
-              <textarea
-                value={otherDocument}
-                readOnly={isViewMode}
-                onChange={(e) => setOtherDocument(e.target.value)}
-                placeholder="Please specify the document you are requesting"
-                rows={4}
-              />
+        <div className={styles.layout}>
+          <section className={`kb-card ${styles.docCard}`}>
+            <DocumentSpot type={data.documentType} size={64} />
+            <div className={styles.docInfo}>
+              <small>Document requested</small>
+              <strong>{docName}</strong>
+              {isViewMode && <span className={`kb-status kb-status-${status}`}>{status}</span>}
             </div>
-          )}
-
-          <div className={styles.detail}>
-            <strong>Appointment Date:</strong>
-            <p>{data.appointmentDateLabel ?? toDateLabel(data.appointmentDate)}</p>
-          </div>
-
-          <div className={styles.detail}>
-            <strong>Appointment Time:</strong>
-            <p>{data.appointmentTime}</p>
-          </div>
-
-          <div className={styles.field}>
-            <label>Purpose of Request:</label>
-            <textarea
-              value={purpose}
-              readOnly={isViewMode}
-              onChange={(e) => setPurpose(e.target.value)}
-              placeholder="State your reason for requesting this document"
-              rows={4}
-            />
-          </div>
-
-          <div className={styles.summaryActions}>
-            {!isViewMode && (
-              <button
-                className={styles.cancel}
-                disabled={isSubmitting}
-                onClick={() => {
-                  setPendingHref(null);
-                  setShowExitModal(true);
-                }}
-              >
-                Cancel
-              </button>
+            <div className={styles.schedule}>
+              <div>
+                <IconCalendar size={18} />
+                <span>
+                  <small>Date</small>
+                  {data.appointmentDateLabel ?? toDateLabel(data.appointmentDate)}
+                </span>
+              </div>
+              <div>
+                <IconClock size={18} />
+                <span>
+                  <small>Time</small>
+                  {data.appointmentTime}
+                </span>
+              </div>
+            </div>
+            {isViewMode && requestId && (
+              <p className={styles.refId}>
+                Ref. ID <span className="kb-mono">{requestId}</span>
+              </p>
             )}
+          </section>
 
-            {!isViewMode && (
-              <button
-                className={styles.confirm}
-                disabled={isSubmitting}
-                onClick={handleSubmit}
-              >
-                {isSubmitting ? "Submitting..." : "Submit"}
-              </button>
-            )}
-          </div>
+          <section className="kb-card">
+            <div className="kb-card-head">
+              <h2>Requester information</h2>
+            </div>
+            <div className={styles.form}>
+              <div className={styles.grid2}>
+                <div className="kb-field">
+                  <label className="kb-label" htmlFor="fullName">
+                    Full name
+                  </label>
+                  <input
+                    id="fullName"
+                    className="kb-input"
+                    maxLength={120}
+                    type="text"
+                    value={fullName}
+                    readOnly={isViewMode}
+                    onChange={(e) => setFullName(e.target.value)}
+                    placeholder="Juan Dela Cruz"
+                  />
+                </div>
+
+                <div className="kb-field">
+                  <label className="kb-label" htmlFor="dob">
+                    Date of birth <small>(MM-DD-YYYY)</small>
+                  </label>
+                  <input
+                    id="dob"
+                    className="kb-input"
+                    type="text"
+                    inputMode="numeric"
+                    value={dob}
+                    readOnly={isViewMode}
+                    placeholder="MM-DD-YYYY"
+                    maxLength={10}
+                    onChange={(e) => {
+                      if (isViewMode) return;
+
+                      let value = e.target.value.replace(/\D/g, "");
+                      if (value.length > 2 && value.length <= 4) {
+                        value = `${value.slice(0, 2)}-${value.slice(2)}`;
+                      } else if (value.length > 4) {
+                        value = `${value.slice(0, 2)}-${value.slice(2, 4)}-${value.slice(4, 8)}`;
+                      }
+                      setDob(value);
+                    }}
+                  />
+                </div>
+              </div>
+
+              {data.documentType === "Other Document Request" && (
+                <div className="kb-field">
+                  <label className="kb-label" htmlFor="otherDoc">
+                    Specify other document
+                  </label>
+                  <textarea
+                    id="otherDoc"
+                    className="kb-textarea"
+                    maxLength={200}
+                    value={otherDocument}
+                    readOnly={isViewMode}
+                    onChange={(e) => setOtherDocument(e.target.value)}
+                    placeholder="Please specify the document you are requesting"
+                    rows={3}
+                  />
+                </div>
+              )}
+
+              <div className="kb-field">
+                <label className="kb-label" htmlFor="purpose">
+                  Purpose of request
+                </label>
+                <textarea
+                  id="purpose"
+                  className="kb-textarea"
+                  maxLength={500}
+                  value={purpose}
+                  readOnly={isViewMode}
+                  onChange={(e) => setPurpose(e.target.value)}
+                  placeholder="e.g. Employment requirement, school enrollment, bank account opening"
+                  rows={4}
+                />
+              </div>
+
+              {!isViewMode && (
+                <>
+                  <p className={styles.note}>
+                    <IconInfo size={16} /> Please bring a valid ID when claiming your document at the barangay hall.
+                  </p>
+                  <div className={styles.actions}>
+                    <button
+                      className="kb-btn kb-btn-secondary"
+                      disabled={isSubmitting}
+                      onClick={() => {
+                        setPendingHref(null);
+                        setShowExitModal(true);
+                      }}
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      data-submit
+                      className="kb-btn kb-btn-primary"
+                      disabled={isSubmitting}
+                      onClick={handleSubmit}
+                    >
+                      {isSubmitting ? "Submitting..." : "Submit request"}
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
+          </section>
         </div>
       </main>
 
       {isClient &&
         showValidationModal &&
         createPortal(
-          <div className={styles.modalOverlay}>
-            <div className={`${styles.modal} ${styles.warningModal} ${styles.validationModal}`}>
+          <div className="kb-modal-overlay">
+            <div className="kb-modal">
+              <div className="kb-modal-icon is-warning">
+                <IconAlert size={30} />
+              </div>
               <h3>Incomplete Information</h3>
               <p>Please complete all required fields.</p>
-              <div className={styles.modalActions}>
-                <button className={styles.modalContinue} onClick={() => setShowValidationModal(false)}>
+              <div className="kb-modal-actions">
+                <button className="kb-btn kb-btn-primary" onClick={() => setShowValidationModal(false)}>
                   OK
                 </button>
               </div>
@@ -517,17 +652,16 @@ function SummaryPageContent() {
       {isClient &&
         showSubmitModal &&
         createPortal(
-          <div className={styles.modalOverlay}>
-            <div className={styles.modal}>
+          <div className="kb-modal-overlay">
+            <div className="kb-modal">
+              <div className="kb-modal-icon is-success">
+                <IconCheckCircle size={32} />
+              </div>
               <h3>Request Submitted</h3>
-              <p>
-                Your document request has been submitted.
-                <br />
-                Please wait for barangay approval.
-              </p>
-              <div className={styles.modalActions}>
-                <button className={styles.modalContinue} onClick={() => router.push("/resident/manage-services")}>
-                  Continue
+              <p>Your document request has been submitted. Please wait for barangay approval.</p>
+              <div className="kb-modal-actions">
+                <button className="kb-btn kb-btn-primary" onClick={() => router.push("/resident/manage-services")}>
+                  View my requests
                 </button>
               </div>
             </div>
@@ -538,13 +672,16 @@ function SummaryPageContent() {
       {isClient &&
         showNoticeModal &&
         createPortal(
-          <div className={styles.modalOverlay}>
-            <div className={`${styles.modal} ${styles.warningModal}`}>
+          <div className="kb-modal-overlay">
+            <div className="kb-modal">
+              <div className="kb-modal-icon is-warning">
+                <IconAlert size={30} />
+              </div>
               <h3>{noticeTitle}</h3>
               <p>{noticeMessage}</p>
-              <div className={styles.modalActions}>
+              <div className="kb-modal-actions">
                 <button
-                  className={styles.modalContinue}
+                  className="kb-btn kb-btn-primary"
                   onClick={() => {
                     setShowNoticeModal(false);
                     if (noticeRedirect) router.push(noticeRedirect);
@@ -562,22 +699,25 @@ function SummaryPageContent() {
         !isViewMode &&
         showExitModal &&
         createPortal(
-          <div className={styles.modalOverlay}>
-            <div className={`${styles.modal} ${styles.warningModal}`}>
+          <div className="kb-modal-overlay">
+            <div className="kb-modal">
+              <div className="kb-modal-icon is-danger">
+                <IconAlert size={30} />
+              </div>
               <h3>Leave page?</h3>
               <p>If you leave now, your entered information will not be saved.</p>
-              <div className={styles.modalActions}>
+              <div className="kb-modal-actions">
                 <button
-                  className={styles.modalContinue}
+                  className="kb-btn kb-btn-secondary"
                   onClick={() => {
                     setPendingHref(null);
                     setShowExitModal(false);
                   }}
                 >
-                  Continue
+                  Stay
                 </button>
-                <button className={styles.modalLeave} onClick={handleLeavePage}>
-                  Leave Page
+                <button className="kb-btn kb-btn-danger" onClick={handleLeavePage}>
+                  Leave page
                 </button>
               </div>
             </div>

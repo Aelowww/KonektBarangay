@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <body style="margin:0;padding:0;background:#f3f6fb;font-family:Arial,Helvetica,sans-serif;color:#0b1f44;">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f3f6fb;padding:32px 12px;">
+      <tr>
+        <td align="center">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:520px;background:#ffffff;border:1px solid #e3e9f3;border-radius:14px;overflow:hidden;">
+            <tr>
+              <td style="background:#0b1f44;padding:20px 28px;">
+                <span style="font-size:18px;font-weight:700;color:#ffffff;">KonektBarangay</span><br />
+                <span style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#8fa6d1;">Barangay E-Services Portal</span>
+              </td>
+            </tr>
+            <tr>
+              <td style="height:4px;line-height:4px;font-size:0;background:#126cea;">&nbsp;</td>
+            </tr>
+            <tr>
+              <td style="padding:28px;">
+                <h1 style="margin:0 0 12px;font-size:20px;color:#0b1f44;">Confirm your new email</h1>
+                <p style="margin:0 0 20px;font-size:15px;line-height:1.6;color:#3b4a66;">
+                  You asked to change your KonektBarangay email from {{ .Email }} to {{ .NewEmail }}. Enter this code to confirm:
+                </p>
+                <p style="margin:0 0 20px;text-align:center;">
+                  <span style="display:inline-block;padding:14px 22px;border-radius:12px;background:#e8f1ff;font-size:30px;font-weight:700;letter-spacing:8px;color:#126cea;">{{ .Token }}</span>
+                </p>
+                <p style="margin:0;font-size:13px;line-height:1.6;color:#64748b;">This code expires in 15 minutes.</p>
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:16px 28px;border-top:1px solid #e3e9f3;font-size:12px;line-height:1.6;color:#94a3b8;">
+                If you didn't request this change, sign in and change your password right away.
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
